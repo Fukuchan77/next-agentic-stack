@@ -13,10 +13,10 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Node / pnpm は mise.toml の固定バージョンで用意する
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v4
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -33,12 +33,12 @@ jobs:
 
     steps:
       # gitleaks git はコミット単位で走査するため全履歴が必要(既定の depth 1 だと 1 コミットしか見ない)
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       # gitleaks は mise.toml の固定バージョンで用意する
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v4
 
       - name: Secret Scan
         run: mise run secret-scan
