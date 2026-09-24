@@ -27,6 +27,8 @@ Tasks are managed via **mise**. Always check [mise.toml](mise.toml) for availabl
 | Lint + format fix  | `mise run lint:fix`  |
 | Type check         | `mise run typecheck` |
 | Bundle size        | `mise run size`      |
+| Dependency updates | `mise run outdated`  |
+| Secret scan        | `mise run secret-scan` / `secret-scan:staged` |
 
 Direct pnpm equivalents (when mise is unavailable):
 
@@ -55,7 +57,8 @@ Direct pnpm equivalents (when mise is unavailable):
 ```text
 src/
   app/                          # App Router (layout, page, api/chat/route.ts)
-  lib/ai/                       # providers / env / registry / agent / tools
+  lib/                          # clock / rate-limit
+  lib/ai/                       # providers / env / registry / agent / tools / chat-handler / chat-request / limits
   sections/{domain}/
     ComponentName.tsx           # Component (Server by default; "use client" only when needed)
     ComponentName.module.css    # Scoped CSS module
@@ -68,6 +71,11 @@ tests/
 
 ## Non-Obvious Patterns
 
+- **Check for updates before starting work** — this repo exists to try the newest releases, so run `mise run outdated` at the start of a task. `pnpm outdated` does not report newer builds of the exact-pinned prereleases; `scripts/check-updates.mjs` does (respecting `minimumReleaseAge`). Apply updates in their own commit and re-run typecheck / tests / build.
+- **`/api/chat` is guarded before the model is called** — `src/lib/ai/chat-handler.ts` runs rate limit (`429`) → body size (`413`) → `z.strictObject` request schema (`400`). The route file only does `export const POST = createChatHandler()` because App Router route files may export nothing but HTTP methods; tests call `createChatHandler({ now, rateLimiter })` for a fresh limiter per test. Input limits live in `src/lib/ai/limits.ts` (zod-free, shared with the client's `maxLength`). The rate limiter is in-process memory — per instance, not global.
+- **Inject time, never call `new Date()` in tools** — tools and the rate limiter take a `Clock` (`src/lib/clock.ts`); `createChatAgent(model, { now })` threads it into `createGetCurrentTimeTool(now)`. Tests pass a fixed clock.
+- **Secret scanning is `gitleaks git`, never `gitleaks dir`** — `dir` would walk `node_modules/` and `.next/`. The CI job needs `fetch-depth: 0` or it scans a single commit.
+
 - **AI SDK v7 naming** — `system` → `instructions`, `stepCountIs` → `isStepCount`, `onFinish` → `onEnd`, `fullStream` → `stream`. Check `node_modules/ai/docs` (shipped with the package) before relying on memory of older versions.
 - **Keep zod out of client code** — `src/lib/ai/providers.ts` is imported by the client `Chat` component, so it must stay zod-free. Put Zod schemas in server modules (`env.ts`, `route.ts`, `tools.ts`).
 - **Server-only modules** — `env.ts`, `registry.ts`, `agent.ts` must never be imported (as values) from `"use client"` files. `import type { ChatAgentUIMessage }` is fine.
@@ -78,4 +86,5 @@ tests/
 - **Playwright webServer runs `next` directly** — under pnpm 12, `pnpm start`/`pnpm exec` do not forward the shutdown signal to `next-server`, which hangs Playwright after the run. Always launch E2E via `pnpm test:e2e` / `pnpm exec playwright test` so `node_modules/.bin` is on `PATH`.
 - **E2E never calls a real LLM** — `/api/chat` is mocked with `page.route` returning a UI Message Stream (SSE).
 - **Prerelease pins** — `typescript`, `next`, `@playwright/test` are pinned to exact prerelease builds that are at least 24 h old (to satisfy `minimumReleaseAge`). Do not switch them to ranges.
+- **Dependabot** — weekly npm + GitHub Actions PRs with `cooldown: 1 day` (mirrors `minimumReleaseAge`). `ai`/`@ai-sdk/*` are grouped because they share `@ai-sdk/provider-utils`; the prerelease pins are grouped into one PR.
 - **Build scripts** — pnpm 12 uses `allowBuilds` (not `onlyBuiltDependencies`/`ignoredBuiltDependencies`) in `pnpm-workspace.yaml`.

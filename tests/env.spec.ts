@@ -24,3 +24,12 @@ test("parseAiEnv rejects an unknown provider", () => {
 test("parseAiEnv rejects an invalid Ollama URL", () => {
 	expect(() => parseAiEnv({ OLLAMA_BASE_URL: "not a url" })).toThrow(/OLLAMA_BASE_URL/);
 });
+
+test("parseAiEnv applies and coerces the chat rate limit settings", () => {
+	expect(parseAiEnv({})).toMatchObject({
+		CHAT_RATE_LIMIT_MAX: 20,
+		CHAT_RATE_LIMIT_WINDOW_SECONDS: 60,
+	});
+	expect(parseAiEnv({ CHAT_RATE_LIMIT_MAX: "5" }).CHAT_RATE_LIMIT_MAX).toBe(5);
+	expect(() => parseAiEnv({ CHAT_RATE_LIMIT_MAX: "0" })).toThrow(/CHAT_RATE_LIMIT_MAX/);
+});

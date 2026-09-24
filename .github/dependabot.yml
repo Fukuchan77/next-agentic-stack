@@ -1,0 +1,43 @@
+version: 2
+
+# 依存の更新 PR を毎週作成する。脆弱性の検出は CI の `pnpm audit`、
+# プレリリース固定の新ビルド確認は `mise run outdated`(scripts/check-updates.mjs)が担う。
+# mise.toml の Node / pnpm / gitleaks は Dependabot の対象外のため `mise outdated` で確認する。
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # pnpm-workspace.yaml の minimumReleaseAge: 1440(24 時間)と揃える。
+    # これがないと pnpm が解決を拒否する(公開 24 時間未満の)版の PR が作られる
+    cooldown:
+      default-days: 1
+    groups:
+      # ai と @ai-sdk/* は内部で @ai-sdk/provider-utils を共有するため、まとめて上げる
+      ai-sdk:
+        patterns:
+          - "ai"
+          - "@ai-sdk/*"
+      # プレリリース固定(nightly / canary / alpha)は毎日新しいビルドが出るため 1 PR に集約する
+      prerelease-toolchain:
+        patterns:
+          - "next"
+          - "typescript"
+          - "@playwright/test"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      dev-tooling:
+        dependency-type: "development"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

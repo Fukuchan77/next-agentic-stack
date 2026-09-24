@@ -12,6 +12,9 @@ const aiEnvSchema = z.object({
 	OLLAMA_MODEL: z.string().min(1).default("qwen3"),
 	// Ollama の OpenAI 互換エンドポイント
 	OLLAMA_BASE_URL: z.url().default("http://localhost:11434/v1"),
+	// /api/chat のレート制限(クライアントごと・固定ウィンドウ)
+	CHAT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(20),
+	CHAT_RATE_LIMIT_WINDOW_SECONDS: z.coerce.number().int().positive().default(60),
 });
 
 export type AiEnv = z.infer<typeof aiEnvSchema>;

@@ -21,7 +21,8 @@
 | E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) | 1.64(alpha) |
 | スタイル | CSS Modules | — |
 | ツール/タスク管理 | [mise](https://mise.jdx.dev)(Node / pnpm バージョン + タスクランナー) | — |
-| バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) | 12 |
+| バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) | 14 |
+| シークレットスキャン | [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30 |
 
 > [!WARNING]
 > TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 は執筆時点(2026-09)で未リリースのため、
@@ -51,6 +52,19 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 
 既定プロバイダは `AI_PROVIDER`(`anthropic` | `openai` | `ollama`、既定 `anthropic`)で指定します。Ollama は公式の OpenAI 互換 API に `@ai-sdk/openai-compatible` で接続します。
 
+### チャット API の入力制限とレート制限
+
+`POST /api/chat` はモデルを呼び出す(= API 料金が発生する)前に、次の順でリクエストを弾きます。
+
+| 検査 | 上限 | 超過時 |
+| --- | --- | --- |
+| レート制限(クライアント IP ごと・固定ウィンドウ) | `CHAT_RATE_LIMIT_MAX` 回 / `CHAT_RATE_LIMIT_WINDOW_SECONDS` 秒(既定 20 回 / 60 秒) | `429` + `Retry-After` |
+| ボディサイズ | 512 KiB | `413` |
+| リクエスト形状 | `z.strictObject`(useChat が送る `id` / `messages` / `trigger` / `messageId` / `provider` 以外は拒否)、`system` ロール拒否 | `400` |
+| 件数・長さ | メッセージ 50 件、1 メッセージ 32 パート、ユーザーテキスト 8,000 文字 | `400` |
+
+入力上限は [`src/lib/ai/limits.ts`](src/lib/ai/limits.ts) に集約しており、変更はコード変更(レビュー対象)で行います。レート制限はプロセス内メモリで数えるため、複数インスタンス / サーバーレスで厳密に制限する場合は Redis 等の共有ストアに置き換えてください。
+
 このテンプレートをベースに新規プロジェクトを作る場合は、`package.json` の `name` / `author` / `license`、`LICENSE` の著作者、`src/app/layout.tsx` の `metadata`、`src/app/favicon.ico` を更新してください。
 
 ## 📜 タスク一覧
@@ -70,6 +84,9 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 | Lint/Format 自動修正 | `mise run lint:fix` | `pnpm lint:fix` |
 | 型チェック | `mise run typecheck` | `pnpm typecheck` |
 | バンドルサイズ検査 | `mise run size` | `pnpm size`(要 build) |
+| 依存の最新チェック | `mise run outdated` | `pnpm outdated` + `node scripts/check-updates.mjs` |
+| シークレットスキャン(全履歴) | `mise run secret-scan` | `gitleaks git --redact .` |
+| シークレットスキャン(ステージ済み) | `mise run secret-scan:staged` | `gitleaks git --staged --redact .` |
 
 ## 📁 フォルダ構成
 
@@ -81,8 +98,14 @@ src/
     layout.tsx                    # ルートレイアウト(metadata)
     page.tsx                      # トップページ(Server Component)
     globals.css                   # グローバルスタイル(CSS 変数・ダークモード)
-    api/chat/route.ts             # チャット API(Route Handler。リクエストを Zod で検証)
+    api/chat/route.ts             # チャット API(Route Handler。実体は lib/ai/chat-handler.ts)
+  lib/
+    clock.ts                      # 現在時刻の注入点(Clock。テストで時刻を固定する)
+    rate-limit.ts                 # クライアントごとの固定ウィンドウ・レート制限
   lib/ai/
+    chat-handler.ts               # /api/chat の処理(レート制限 → 入力検証 → エージェント)
+    chat-request.ts               # リクエストの strict スキーマとサイズ上限付き読み取り
+    limits.ts                     # 入力上限(クライアント/サーバー共有。zod 非依存)
     providers.ts                  # プロバイダ ID(クライアント/サーバー共有。zod 非依存)
     env.ts                        # AI 関連環境変数の Zod スキーマ(サーバー専用)
     registry.ts                   # Anthropic / OpenAI / Ollama のプロバイダレジストリ
@@ -104,7 +127,8 @@ tests/
 ## ✅ ベストプラクティス指針
 
 - **Server Components がデフォルト**:データ取得は Server Component(`getUsers()` 等)で行い、`"use client"` はインタラクションが必要な末端コンポーネント(`Chat`)に限定する。
-- **境界での検証**:外部入力(リクエストボディ・環境変数・ツール入力)は Zod で検証する。
+- **境界での検証**:外部入力(リクエストボディ・環境変数・ツール入力)は Zod で検証する。リクエストは `z.strictObject` で未知のフィールドを拒否し、件数・長さ・バイト数に上限を設ける。
+- **時刻は注入する**:ツールやレート制限は `Clock`(`src/lib/clock.ts`)を引数で受け取り、`new Date()` を直接呼ばない。テストでは固定時刻を渡す。
 - **クライアントバンドルに zod を持ち込まない**:クライアントと共有する定義(`providers.ts`)は zod 非依存にし、スキーマはサーバー側で組み立てる。
 - **エージェントループの上限**:`ToolLoopAgent` は `stopWhen: isStepCount(5)` で暴走を防ぐ。
 - **LLM 呼び出しをテストでモック**:単体テストは `ai/test` の `MockLanguageModelV4`、E2E は `page.route` で UI Message Stream をモックし、API キーなしで CI が回る。
@@ -119,6 +143,12 @@ tests/
 - `allowBuilds`:install/postinstall スクリプトはデフォルトでブロックし、許可/拒否を明示。
 - Node / pnpm のバージョンを `mise.toml` と `package.json`(`packageManager` / `engines`)で固定。
 - CI で `pnpm install --frozen-lockfile` + `pnpm audit --audit-level=moderate`。
+- Dependabot(`.github/dependabot.yml`)が npm と GitHub Actions の更新 PR を毎週作成する(`cooldown: 1 日` で `minimumReleaseAge` と整合)。
+- CI の `secret-scan` ジョブで gitleaks が全履歴をスキャンする。コミット前には `mise run secret-scan:staged` を推奨。
+
+### 依存の最新チェック
+
+最新機能の検証・試作用のテンプレートのため、作業を始める前など適宜 `mise run outdated` で最新状況を確認してください。範囲指定の依存は `pnpm outdated`、プレリリース固定(nightly / canary / alpha)は [`scripts/check-updates.mjs`](scripts/check-updates.mjs) が npm registry から「公開 24 時間以上経過した最新ビルド」と「正式版の公開有無」を表示します(読み取りのみ。`package.json` は書き換えません)。
 
 詳細な意思決定の記録は [`docs/REFACTORING_PLAN.md`](docs/REFACTORING_PLAN.md) を参照してください。
 
@@ -134,7 +164,7 @@ TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 の正式版が公開された�
 
 push のたびに GitHub Actions で以下を実行します。
 
-- **lint**:`biome check` + `pnpm typecheck`(`next typegen` + `tsc`)
+- **lint**:`biome check` + `pnpm typecheck`(`next typegen` + `tsc`)/ gitleaks(secret-scan)
 - **tests**:`vitest run --coverage`(unit)/ `size-limit`(bundle)/ Playwright(e2e)
 - **security**:`pnpm audit`
 
