@@ -15,11 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Node / pnpm は mise.toml の固定バージョンで用意する
       - uses: jdx/mise-action@v2
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -28,4 +25,4 @@ jobs:
         run: pnpm exec biome check .
 
       - name: Type Check
-        run: pnpm exec tsc --noEmit
+        run: pnpm run typecheck

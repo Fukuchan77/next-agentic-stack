@@ -1,37 +1,57 @@
-<h1 align="center">⚡⚛️ Robust React + TypeScript Template</h1>
+<h1 align="center">🤖 Next Agentic Stack</h1>
 
 <p align="center">
-  ベストプラクティスに沿って React アプリを作り始めるためのテンプレート。<br/>
+  Next.js App Router + Vercel AI SDK で AI エージェントアプリを作り始めるためのテンプレート。<br/>
   単体テスト・E2E テスト・CI・Lint/Format・バンドルサイズ監視・サプライチェーン対策を同梱。
 </p>
 
 ## 🌈 技術スタック
 
-| 領域 | 採用技術 |
-| --- | --- |
-| ビルド/開発サーバー | [Vite 8](https://vite.dev)(Rolldown ベース) |
-| UI | [React 19.2](https://react.dev) |
-| 言語 | [TypeScript 6.0+](https://www.typescriptlang.org) |
-| Lint / Format | [Biome 2.5+](https://biomejs.dev)(ESLint + Prettier を一本化) |
-| 単体テスト | [Vitest 4](https://vitest.dev) + [Testing Library](https://testing-library.com) |
-| E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) |
-| UI コンポーネント | [Carbon Design System](https://carbondesignsystem.com)(`@carbon/react`) |
-| スタイル | CSS Modules + [Sass](https://sass-lang.com) |
-| パッケージ管理 | [pnpm](https://pnpm.io) |
-| ツール/タスク管理 | [mise](https://mise.jdx.dev)(Node バージョン + タスクランナー) |
-| バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) |
+| 領域 | 採用技術 | バージョン |
+| --- | --- | --- |
+| ランタイム | [Node.js](https://nodejs.org) | 26.10 |
+| 言語 | [TypeScript](https://www.typescriptlang.org)(Go 製ネイティブコンパイラ) | 7.1(nightly) |
+| パッケージ管理 | [pnpm](https://pnpm.io) | 12.6 |
+| フレームワーク | [Next.js](https://nextjs.org)(App Router + Turbopack) | 16.4(canary) |
+| UI | [React](https://react.dev) | 19.3 |
+| AI | [Vercel AI SDK](https://ai-sdk.dev)(Anthropic / OpenAI / Ollama) | 7.0 |
+| バリデーション | [Zod](https://zod.dev) | 4.6 |
+| Lint / Format | [Biome](https://biomejs.dev) | 2.5 |
+| 単体テスト | [Vitest](https://vitest.dev) + [Testing Library](https://testing-library.com) | 5.0 |
+| E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) | 1.64(alpha) |
+| スタイル | CSS Modules | — |
+| ツール/タスク管理 | [mise](https://mise.jdx.dev)(Node / pnpm バージョン + タスクランナー) | — |
+| バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) | 12 |
+
+> [!WARNING]
+> TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 は執筆時点(2026-09)で未リリースのため、
+> プレリリース版(nightly / canary / alpha)を**特定バージョンに固定**して使用しています。
+> 正式版の公開後は `package.json` を安定版に更新してください([更新手順](#-プレリリース版の更新))。
 
 ## 🚀 はじめに
 
 前提: [mise](https://mise.jdx.dev) をインストール済みであること(Node と pnpm は mise が `mise.toml` の固定バージョンで用意します)。
 
 ```bash
-mise install        # Node 24 / pnpm 10.33.0 を用意
-pnpm install        # 依存をインストール
-mise run dev        # 開発サーバーを http://localhost:3000 で起動
+mise install              # Node 26.10.0 / pnpm 12.6.0 を用意
+pnpm install              # 依存をインストール
+cp .env.example .env.local  # API キー・モデルを設定
+mise run dev              # 開発サーバーを http://localhost:3000 で起動
 ```
 
-このテンプレートをベースに新規プロジェクトを作る場合は、`package.json` の `name` / `author` / `license`、`LICENSE` の著作者、`index.html` の `<title>`、`public/favicon.ico` を更新してください。
+### AI プロバイダの設定
+
+`.env.local` で既定のプロバイダとモデルを指定します(画面上のセレクタでリクエストごとに切り替えも可能)。環境変数は起動時に Zod で検証され、不正な値はエラーになります。
+
+| プロバイダ | 必要な環境変数 | 既定モデル |
+| --- | --- | --- |
+| `anthropic` | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL=claude-sonnet-5` |
+| `openai` | `OPENAI_API_KEY` | `OPENAI_MODEL=gpt-5.5` |
+| `ollama` | なし(ローカルで `ollama serve`) | `OLLAMA_MODEL=qwen3` / `OLLAMA_BASE_URL=http://localhost:11434/v1` |
+
+既定プロバイダは `AI_PROVIDER`(`anthropic` | `openai` | `ollama`、既定 `anthropic`)で指定します。Ollama は公式の OpenAI 互換 API に `@ai-sdk/openai-compatible` で接続します。
+
+このテンプレートをベースに新規プロジェクトを作る場合は、`package.json` の `name` / `author` / `license`、`LICENSE` の著作者、`src/app/layout.tsx` の `metadata`、`src/app/favicon.ico` を更新してください。
 
 ## 📜 タスク一覧
 
@@ -39,12 +59,12 @@ mise run dev        # 開発サーバーを http://localhost:3000 で起動
 
 | 用途 | mise | pnpm |
 | --- | --- | --- |
-| 開発サーバー | `mise run dev` | `pnpm dev` |
-| 本番ビルド | `mise run build` | `pnpm build` |
-| ビルドのプレビュー | `mise run preview` | `pnpm preview` |
+| 開発サーバー(Turbopack) | `mise run dev` | `pnpm dev` |
+| 本番ビルド(Turbopack) | `mise run build` | `pnpm build` |
+| 本番サーバー | `mise run start` | `pnpm start`(要 build) |
 | 単体テスト(watch) | `mise run test` | `pnpm test` |
 | 単体テスト(一回) | `mise run test:run` | `pnpm test:run` |
-| カバレッジ計測 | `mise run test:coverage` | `pnpm exec vitest run --coverage` |
+| カバレッジ計測 | `mise run test:coverage` | `pnpm test:coverage` |
 | E2E テスト | `mise run test:e2e` | `pnpm test:e2e` |
 | Lint/Format チェック | `mise run lint` | `pnpm lint` |
 | Lint/Format 自動修正 | `mise run lint:fix` | `pnpm lint:fix` |
@@ -53,66 +73,74 @@ mise run dev        # 開発サーバーを http://localhost:3000 で起動
 
 ## 📁 フォルダ構成
 
-機能(ドメイン)単位でコンポーネント・フック・スコープド CSS を同居させる **feature-based colocation** を採用しています(型別の `components/` `hooks/` ではなく、関連するものを近くに置く現行のベストプラクティス)。
+機能(ドメイン)単位でコンポーネント・データ取得・スコープド CSS を同居させる **feature-based colocation** を採用しています。
 
 ```text
 src/
-  index.tsx                       # エントリーポイント(createRoot + StrictMode)
-  App.tsx                         # ルートコンポーネント
-  assets/styles/global.scss       # グローバルスタイル(Carbon を使用分のみ読込)
+  app/                            # Next.js App Router
+    layout.tsx                    # ルートレイアウト(metadata)
+    page.tsx                      # トップページ(Server Component)
+    globals.css                   # グローバルスタイル(CSS 変数・ダークモード)
+    api/chat/route.ts             # チャット API(Route Handler。リクエストを Zod で検証)
+  lib/ai/
+    providers.ts                  # プロバイダ ID(クライアント/サーバー共有。zod 非依存)
+    env.ts                        # AI 関連環境変数の Zod スキーマ(サーバー専用)
+    registry.ts                   # Anthropic / OpenAI / Ollama のプロバイダレジストリ
+    agent.ts                      # ToolLoopAgent(ツール呼び出しループ)
+    tools.ts                      # エージェントのツール定義(入力は Zod スキーマ)
   sections/{domain}/
-    ComponentName.tsx             # 表示用(presentational)コンポーネント
-    ComponentName.module.scss     # スコープド CSS Module
-    useFeatureName.ts             # データ/ビジネスロジックを担うカスタムフック
+    ComponentName.tsx             # 表示用コンポーネント("use client" は必要な場合のみ)
+    ComponentName.module.css      # スコープド CSS Module
+    getFeatureName.ts             # Server Component から呼ぶデータ取得関数
 tests/
-  *.spec.tsx                      # Vitest 単体テスト
+  *.spec.ts(x)                    # Vitest 単体テスト
+  helpers/mockModel.ts            # AI SDK のモックモデル(ai/test)
   setupTests.ts                   # Vitest グローバルセットアップ
   tsconfig.json                   # テスト用 tsconfig(vitest/globals 型を追加)
   e2e/
-    *.spec.ts                     # Playwright E2E テスト
+    *.spec.ts                     # Playwright E2E テスト(/api/chat はネットワーク層でモック)
 ```
-
-設計方針は React 公式の [Thinking in React](https://react.dev/learn/thinking-in-react) に準拠:UI をコンポーネント階層に分解し、state は単一の情報源(single source of truth)として最小限に保ち、データは一方向に流す。`App → useUsers(データ) / UserCard(表示)` のように、データ取得フックと表示コンポーネントを分離します。
 
 ## ✅ ベストプラクティス指針
 
-[Vercel の React Best Practices](https://vercel.com/blog/introducing-react-best-practices)(8 カテゴリ・40+ ルール)を踏まえ、本テンプレートでは次を徹底します。
-
-- **バンドル肥大の回避**(`bundle-barrel-imports`): UI ライブラリは barrel(`@carbon/react` の全量読込)ではなくコンポーネント単位で読み込む。`global.scss` も使用コンポーネント分の `@carbon/styles/scss/components/*` だけを `@use` する。
-- **参照の安定性**(`rerender-lazy-state-init` 他): 静的データはモジュールスコープに巻き上げ、レンダーごとの再生成を避ける。
-- **派生 state を `useEffect` で同期しない**(`rerender-derived-state-no-effect`): 派生値はレンダー中に算出する。
-- **インラインコンポーネント定義の禁止**(`rerender-no-inline-components`): コンポーネントはモジュールトップレベルで宣言する。
-- **リストの `key` は安定 ID**:index ではなく一意な ID を使う。
+- **Server Components がデフォルト**:データ取得は Server Component(`getUsers()` 等)で行い、`"use client"` はインタラクションが必要な末端コンポーネント(`Chat`)に限定する。
+- **境界での検証**:外部入力(リクエストボディ・環境変数・ツール入力)は Zod で検証する。
+- **クライアントバンドルに zod を持ち込まない**:クライアントと共有する定義(`providers.ts`)は zod 非依存にし、スキーマはサーバー側で組み立てる。
+- **エージェントループの上限**:`ToolLoopAgent` は `stopWhen: isStepCount(5)` で暴走を防ぐ。
+- **LLM 呼び出しをテストでモック**:単体テストは `ai/test` の `MockLanguageModelV4`、E2E は `page.route` で UI Message Stream をモックし、API キーなしで CI が回る。
 - **型のみの import は `import type`**:Biome の `useImportType` で強制。
-- **バンドルサイズのガードレール**:`size-limit` を CI で検査し、回帰を機械的に防ぐ(JS 80kB / CSS 12kB brotli)。
-
-### 今後の拡張時の規約
-
-- **データ取得**:実データを扱う際は [SWR](https://swr.vercel.app) または [TanStack Query](https://tanstack.com/query) を採用し、リクエストの重複排除・キャッシュを得る(`client-swr-dedup`)。複数リソースは `Promise.all` で並列化する(`async-parallel`)。
-- **コード分割**:`sections/` が増えてページ単位になったら、`React.lazy` + `<Suspense>` でルート単位の遅延読込にする(`bundle-dynamic-imports`)。重い第三者ライブラリ(チャート等)は動的 import で遅延させる。
+- **バンドルサイズのガードレール**:`size-limit` を CI で検査(クライアント JS 240 kB / CSS 4 kB、brotli)。
 
 ## 🔒 サプライチェーン対策
 
 `pnpm audit`(既知 CVE 照合)だけでは防げない攻撃を `pnpm-workspace.yaml` で補完しています。
 
-- `minimumReleaseAge: 1440`:公開から 24 時間未満のバージョンを解決しない(不正バージョン公開直後の最危険期間を回避)。
-- install/postinstall スクリプトはデフォルトでブロックし、許可するものだけ明示。
-- pnpm 自体のバージョンを `mise.toml` で固定。
+- `minimumReleaseAge: 1440`:公開から 24 時間未満のバージョンを解決しない(プレリリース版も 24 時間以上経過したビルドを選んで固定しており、例外は設けていない)。
+- `allowBuilds`:install/postinstall スクリプトはデフォルトでブロックし、許可/拒否を明示。
+- Node / pnpm のバージョンを `mise.toml` と `package.json`(`packageManager` / `engines`)で固定。
 - CI で `pnpm install --frozen-lockfile` + `pnpm audit --audit-level=moderate`。
 
 詳細な意思決定の記録は [`docs/REFACTORING_PLAN.md`](docs/REFACTORING_PLAN.md) を参照してください。
+
+## 🔁 プレリリース版の更新
+
+TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 の正式版が公開されたら:
+
+1. `package.json` の `typescript` / `next` / `@playwright/test` を正式版に更新(公開から 24 時間経過後)
+2. `.github/workflows/tests.yml` の e2e ジョブを公式コンテナイメージ(`mcr.microsoft.com/playwright:v1.64.x-noble`)に戻す
+3. `pnpm typecheck && pnpm test:run && pnpm build && pnpm test:e2e` で検証
 
 ## 🤝 CI
 
 push のたびに GitHub Actions で以下を実行します。
 
-- **lint**:`biome check` + `tsc --noEmit`
-- **tests**:`vitest run`(unit)/ `size-limit`(bundle)/ Playwright(e2e、公式コンテナイメージで実行)
+- **lint**:`biome check` + `pnpm typecheck`(`next typegen` + `tsc`)
+- **tests**:`vitest run --coverage`(unit)/ `size-limit`(bundle)/ Playwright(e2e)
 - **security**:`pnpm audit`
 
 ## 🤖 AI コーディングエージェント向け
 
-リポジトリ固有の規約・非自明なパターンは [`AGENT.md`](AGENT.md) にまとめています。
+リポジトリ固有の規約・非自明なパターンは [`AGENTS.md`](AGENTS.md) にまとめています。
 
 ## ⚖️ ライセンス
 
