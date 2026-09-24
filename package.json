@@ -10,11 +10,11 @@
 		"node": ">=26.10.0"
 	},
 	"dependencies": {
-		"@ai-sdk/anthropic": "^4.0.60",
-		"@ai-sdk/openai": "^4.0.72",
-		"@ai-sdk/openai-compatible": "^3.0.53",
-		"@ai-sdk/react": "^4.0.114",
-		"ai": "^7.0.111",
+		"@ai-sdk/anthropic": "^4.0.61",
+		"@ai-sdk/openai": "^4.0.73",
+		"@ai-sdk/openai-compatible": "^3.0.54",
+		"@ai-sdk/react": "^4.0.115",
+		"ai": "^7.0.112",
 		"next": "16.4.0-canary.39",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
