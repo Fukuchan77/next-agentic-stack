@@ -26,3 +26,19 @@ jobs:
 
       - name: Type Check
         run: pnpm run typecheck
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # gitleaks git はコミット単位で走査するため全履歴が必要(既定の depth 1 だと 1 コミットしか見ない)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # gitleaks は mise.toml の固定バージョンで用意する
+      - uses: jdx/mise-action@v2
+
+      - name: Secret Scan
+        run: mise run secret-scan

@@ -3,6 +3,8 @@ node = "26.10.0"
 # "latest" だと公開直後の不正バージョンを自動取得するリスクがあるため固定する
 # (package.json の packageManager と一致させること)
 pnpm = "12.6.0"
+# シークレットスキャン(`mise run secret-scan`)。CI も mise-action 経由でこの版を使う
+gitleaks = "8.30.1"
 
 [hooks]
 postinstall = "pnpm install"
@@ -50,3 +52,17 @@ description = "Generate Next.js route types and type check (src + tests)"
 [tasks.size]
 run = "pnpm exec size-limit"
 description = "Check client bundle size against limits (requires build)"
+
+[tasks.outdated]
+run = ["pnpm outdated || true", "node scripts/check-updates.mjs"]
+description = "Check for newer dependency versions (ranges + prerelease pins)"
+
+# `gitleaks git` は git 管理下の内容(全履歴)だけを読む。`gitleaks dir` は node_modules や
+# .next まで走査してしまうため使わない。--redact でログに値を再掲しない
+[tasks.secret-scan]
+run = "gitleaks git --no-banner --redact ."
+description = "Scan the full git history for secrets (gitleaks)"
+
+[tasks."secret-scan:staged"]
+run = "gitleaks git --staged --no-banner --redact ."
+description = "Scan staged changes for secrets before committing (gitleaks)"

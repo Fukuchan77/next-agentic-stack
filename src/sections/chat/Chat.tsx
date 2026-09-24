@@ -3,6 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { type FormEvent, useId, useState } from "react";
 import type { ChatAgentUIMessage } from "@/lib/ai/agent";
+import { MAX_USER_TEXT_CHARS } from "@/lib/ai/limits";
 import { isProvider, PROVIDER_LABELS, PROVIDERS, type Provider } from "@/lib/ai/providers";
 import styles from "./Chat.module.css";
 
@@ -88,6 +89,7 @@ export function Chat({ defaultProvider }: ChatProps) {
 					value={input}
 					onChange={(event) => setInput(event.currentTarget.value)}
 					placeholder="Ask something…"
+					maxLength={MAX_USER_TEXT_CHARS}
 					aria-label="Message"
 				/>
 				{isBusy ? (
