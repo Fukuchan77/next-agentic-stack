@@ -1,10 +1,10 @@
-import { Tile } from "@carbon/react";
-import type { User } from "./useUsers";
+import type { User } from "./getUsers";
+import styles from "./UserCard.module.css";
 
 interface UserCardProps {
 	user: User;
 }
 
 export function UserCard({ user }: UserCardProps) {
-	return <Tile>{user.name}</Tile>;
+	return <div className={styles.card}>{user.name}</div>;
 }

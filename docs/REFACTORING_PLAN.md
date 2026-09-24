@@ -2,6 +2,10 @@
 
 作成日: 2026-06-10
 
+> [!NOTE]
+> 2026-09-24 に Vite SPA から Next.js App Router + Vercel AI SDK 構成へ移行した([7 章](#7-nextjs--ai-sdk-スタックへの移行2026-09-24完了))。
+> 1〜6 章の Vite / Carbon 前提の記述は当時の意思決定の記録として残している。
+
 ## 1. TypeScript 6.0 アップデート(完了)
 
 `typescript` を `^5.9.0` → `^6.0.3` に更新済み。`tsc --noEmit`(src / tests 両方)、`tsc -b && vite build`、`vitest run`、`biome check` すべて成功。
@@ -82,7 +86,8 @@ IBM Plex フォントは Carbon の SCSS 経由で読み込まれる。フォン
 | Phase 1 | F1: Carbon CSS のコンポーネント単位読込でバンドル削減 | ✅ 完了(本ブランチ) |
 | Phase 2 | F2 短期: 静的データのモジュールスコープ化 / tsconfig フォローアップ | ✅ 完了(本ブランチ) |
 | Phase 3 | F4: CI へのバンドルサイズガードレール追加 | ✅ 完了(本ブランチ) |
-| Phase 4 | F2 中期 + F3: データ取得層(SWR/TanStack Query)とコード分割規約の整備 | 未着手 |
+| Phase 4 | F2 中期 + F3: データ取得層(SWR/TanStack Query)とコード分割規約の整備 | ⏭ 7 章で方針変更(Server Components でのデータ取得に置換) |
+| Phase 5 | Next.js App Router + AI SDK スタックへの移行 | ✅ 完了(7 章) |
 
 各フェーズは独立して PR 化できる粒度に設計している。Phase 1 が効果・リスク比で最優先。
 
@@ -160,3 +165,43 @@ Dependabot / `pnpm audit` が報告した 14 件(critical 1 / high 7 / moderate 
 - `size-limit` + `@size-limit/file` を導入し、`pnpm run size` / `mise run size` で検査可能に
 - 上限: JS 80 kB / CSS 12 kB(brotli。実測 JS 72.3 kB / CSS 8.5 kB に対し約 10〜40% のヘッドルーム)
 - CI(`tests.yml`)に `bundle-size` ジョブを追加。閾値超過で fail するため、Carbon 全量読込への回帰や重い依存の安易な追加を機械的に防止する
+
+## 7. Next.js + AI SDK スタックへの移行(2026-09-24・完了)
+
+### バージョン
+
+| 領域 | Before | After |
+| --- | --- | --- |
+| Node.js | 24(LTS) | **26.10.0** |
+| pnpm | 10.33.0 | **12.6.0** |
+| TypeScript | 6.0 | **7.1.0-dev.20260922.1**(nightly。最新安定版は 7.0.2) |
+| ビルド/FW | Vite 8 + React 19.2 | **Next.js 16.4.0-canary.39**(App Router + Turbopack)+ React 19.3 |
+| AI | — | **AI SDK 7.0**(`ai` / `@ai-sdk/react` / anthropic / openai / openai-compatible) |
+| バリデーション | — | **Zod 4.6** |
+| Biome | 2.5.1 | **2.5.14**(`next` / `react` / `test` ドメインを有効化) |
+| Vitest | 4.1 | **5.0.1** |
+| Playwright | 1.58 | **1.64.0-alpha-2026-09-22**(最新安定版は 1.63.0) |
+| UI ライブラリ | Carbon Design System + Sass | 削除(CSS Modules + CSS 変数) |
+
+### プレリリース版の扱い
+
+TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 は移行時点で未リリースのため、プレリリース版を採用した。
+`minimumReleaseAge: 1440` に例外(`minimumReleaseAgeExclude`)を設けるのではなく、**公開から 24 時間以上経過したビルドを選んで完全一致で固定**した。
+日次で公開される nightly / canary を例外扱いにすると、最も検証期間の短いバージョンを常に取り込むことになるため。
+
+同じ理由で AI SDK 系(`ai` / `@ai-sdk/*`)は、24 時間以内に公開された最新パッチではなく、ルールを満たす直前のパッチに解決されている(`^7.0.111` 等の範囲指定のため、`pnpm update` 時に成熟したパッチへ追随する)。
+
+### pnpm 12 への移行で必要だった変更
+
+- `ignoredBuiltDependencies` → `allowBuilds`(`pkg: false` で明示拒否)。Carbon / IBM Plex / esbuild / @parcel/watcher の 22 件は依存から消えたため、残るのは `sharp`(next/image)のみ
+- `package.json` の `pnpm.overrides`(undici / picomatch / postcss / immutable)は、依存の刷新で対象経路が消滅または修正版に解決されるため削除。移行後の `pnpm audit` は **No known vulnerabilities found**
+- `pnpm start` / `pnpm exec` 経由で起動した `next-server` は終了シグナルを受け取らず、Playwright の webServer がテスト完了後にハングする。webServer は `next start` / `next dev` を直接起動する
+
+### 構成上の判断
+
+- **Ollama 接続**: コミュニティ製 `ollama-ai-provider-v2` ではなく、公式 `@ai-sdk/openai-compatible` で Ollama の OpenAI 互換 API(`/v1`)に接続(サプライチェーン上、公式パッケージを優先)
+- **エージェント**: AI SDK 7 の `ToolLoopAgent` + `createAgentUIStreamResponse`。ツールループは `isStepCount(5)` で上限を設定
+- **クライアントバンドルからの zod 排除**: `Chat`(クライアント)が zod スキーマを import していたとき、チャットのチャンクは 588 kB(raw)だった。共有定義(`providers.ts`)を zod 非依存にし 303 kB に削減(残りは AI SDK 内部の zod)
+- **size-limit の再設定**: Next.js の出力(`.next/static/chunks`)に合わせ、クライアント JS 240 kB / CSS 4 kB(brotli)。実測 JS 222 kB / CSS 0.8 kB
+- **データ取得**: F2 中期で予定していた SWR / TanStack Query の代わりに、Server Component から `getUsers()` を直接呼ぶ(App Router の標準パターン)
+- **E2E**: Playwright 1.64 alpha の公式コンテナイメージが存在しないため、CI は `playwright install --with-deps` でブラウザを取得する。正式版公開後にコンテナ実行へ戻す

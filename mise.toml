@@ -1,22 +1,23 @@
 [tools]
-node = "24"
+node = "26.10.0"
 # "latest" だと公開直後の不正バージョンを自動取得するリスクがあるため固定する
-pnpm = "10.33.0"
+# (package.json の packageManager と一致させること)
+pnpm = "12.6.0"
 
 [hooks]
 postinstall = "pnpm install"
 
 [tasks.dev]
-run = "pnpm exec vite --port ${PORT:-3000} --open"
-description = "Start development server"
+run = "pnpm exec next dev"
+description = "Start development server (Turbopack)"
 
 [tasks.build]
-run = "pnpm exec tsc -b && pnpm exec vite build"
-description = "Build for production"
+run = "pnpm exec next build"
+description = "Build for production (Turbopack)"
 
-[tasks.preview]
-run = "pnpm exec vite preview --port ${PORT:-3000}"
-description = "Preview production build"
+[tasks.start]
+run = "pnpm exec next start"
+description = "Serve the production build"
 
 [tasks.test]
 run = "pnpm exec vitest"
@@ -43,9 +44,9 @@ run = "pnpm exec biome check --write ."
 description = "Auto-fix lint and format issues"
 
 [tasks.typecheck]
-run = "pnpm exec tsc --noEmit"
-description = "Type check without emitting"
+run = "pnpm run typecheck"
+description = "Generate Next.js route types and type check (src + tests)"
 
 [tasks.size]
 run = "pnpm exec size-limit"
-description = "Check bundle size against limits (requires build)"
+description = "Check client bundle size against limits (requires build)"

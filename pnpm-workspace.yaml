@@ -1,36 +1,18 @@
 # 設定専用ファイル(本リポジトリは単一パッケージのため packages は定義しない)
-# pnpm v10 以降、サプライチェーン対策の設定はこのファイルに集約される
+# pnpm v10 以降(本リポジトリは v12)、サプライチェーン対策の設定はこのファイルに集約される
 
 # 公開から 24 時間(1440 分)未満の新規バージョンを解決しない。
 # npm への不正パッケージ公開直後(検出・取り下げ前)の最危険期間を回避する。
 # 緊急のセキュリティパッチを例外にしたい場合は minimumReleaseAgeExclude を使う。
 minimumReleaseAge: 1440
 
+# プレリリース版(TypeScript 7.1 nightly / Next.js 16.4 canary / Playwright 1.64 alpha)は
+# package.json で「公開から 24 時間以上経過した」特定バージョンに固定しており、
+# minimumReleaseAgeExclude による例外は設けていない。更新時も同じ条件で選ぶこと。
+
 # 依存の install/postinstall スクリプトは pnpm がデフォルトでブロックする。
+# pnpm 11 以降は allowBuilds で「許可(true)/ 拒否(false)」を明示する。
 # 以下は「実行不要」と監査済みの明示的な拒否リスト(警告の抑制と意思決定の記録):
-# - @carbon/* / @ibm/plex*: スクリプトは ibmtelemetry(テレメトリ収集)のみ
-# - esbuild / @parcel/watcher: optionalDependencies のビルド済みバイナリで動作する
-# スクリプト実行を許可する場合は onlyBuiltDependencies に移すこと。
-ignoredBuiltDependencies:
-  - "@carbon/colors"
-  - "@carbon/feature-flags"
-  - "@carbon/grid"
-  - "@carbon/icon-helpers"
-  - "@carbon/icons-react"
-  - "@carbon/layout"
-  - "@carbon/motion"
-  - "@carbon/react"
-  - "@carbon/styles"
-  - "@carbon/themes"
-  - "@carbon/type"
-  - "@carbon/utilities"
-  - "@ibm/plex-mono"
-  - "@ibm/plex-sans"
-  - "@ibm/plex-sans-arabic"
-  - "@ibm/plex-sans-devanagari"
-  - "@ibm/plex-sans-hebrew"
-  - "@ibm/plex-sans-thai"
-  - "@ibm/plex-sans-thai-looped"
-  - "@ibm/plex-serif"
-  - "@parcel/watcher"
-  - esbuild
+# - sharp(next/image 用): optionalDependencies のビルド済みバイナリ(@img/sharp-*)で動作する
+allowBuilds:
+  sharp: false
