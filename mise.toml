@@ -1,0 +1,51 @@
+[tools]
+node = "24"
+# "latest" だと公開直後の不正バージョンを自動取得するリスクがあるため固定する
+pnpm = "10.33.0"
+
+[hooks]
+postinstall = "pnpm install"
+
+[tasks.dev]
+run = "pnpm exec vite --port ${PORT:-3000} --open"
+description = "Start development server"
+
+[tasks.build]
+run = "pnpm exec tsc -b && pnpm exec vite build"
+description = "Build for production"
+
+[tasks.preview]
+run = "pnpm exec vite preview --port ${PORT:-3000}"
+description = "Preview production build"
+
+[tasks.test]
+run = "pnpm exec vitest"
+description = "Run unit tests (watch mode)"
+
+[tasks."test:run"]
+run = "pnpm exec vitest run"
+description = "Run unit tests once"
+
+[tasks."test:coverage"]
+run = "pnpm exec vitest run --coverage"
+description = "Run unit tests with coverage"
+
+[tasks."test:e2e"]
+run = "pnpm exec playwright test"
+description = "Run E2E tests"
+
+[tasks.lint]
+run = "pnpm exec biome check ."
+description = "Lint and format check"
+
+[tasks."lint:fix"]
+run = "pnpm exec biome check --write ."
+description = "Auto-fix lint and format issues"
+
+[tasks.typecheck]
+run = "pnpm exec tsc --noEmit"
+description = "Type check without emitting"
+
+[tasks.size]
+run = "pnpm exec size-limit"
+description = "Check bundle size against limits (requires build)"

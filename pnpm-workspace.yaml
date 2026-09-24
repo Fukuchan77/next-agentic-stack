@@ -1,0 +1,36 @@
+# 設定専用ファイル(本リポジトリは単一パッケージのため packages は定義しない)
+# pnpm v10 以降、サプライチェーン対策の設定はこのファイルに集約される
+
+# 公開から 24 時間(1440 分)未満の新規バージョンを解決しない。
+# npm への不正パッケージ公開直後(検出・取り下げ前)の最危険期間を回避する。
+# 緊急のセキュリティパッチを例外にしたい場合は minimumReleaseAgeExclude を使う。
+minimumReleaseAge: 1440
+
+# 依存の install/postinstall スクリプトは pnpm がデフォルトでブロックする。
+# 以下は「実行不要」と監査済みの明示的な拒否リスト(警告の抑制と意思決定の記録):
+# - @carbon/* / @ibm/plex*: スクリプトは ibmtelemetry(テレメトリ収集)のみ
+# - esbuild / @parcel/watcher: optionalDependencies のビルド済みバイナリで動作する
+# スクリプト実行を許可する場合は onlyBuiltDependencies に移すこと。
+ignoredBuiltDependencies:
+  - "@carbon/colors"
+  - "@carbon/feature-flags"
+  - "@carbon/grid"
+  - "@carbon/icon-helpers"
+  - "@carbon/icons-react"
+  - "@carbon/layout"
+  - "@carbon/motion"
+  - "@carbon/react"
+  - "@carbon/styles"
+  - "@carbon/themes"
+  - "@carbon/type"
+  - "@carbon/utilities"
+  - "@ibm/plex-mono"
+  - "@ibm/plex-sans"
+  - "@ibm/plex-sans-arabic"
+  - "@ibm/plex-sans-devanagari"
+  - "@ibm/plex-sans-hebrew"
+  - "@ibm/plex-sans-thai"
+  - "@ibm/plex-sans-thai-looped"
+  - "@ibm/plex-serif"
+  - "@parcel/watcher"
+  - esbuild

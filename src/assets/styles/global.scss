@@ -1,0 +1,20 @@
+// Carbon Design System のスタイルを使用コンポーネント分のみ読み込む。
+// 全量読込(@use "@carbon/react")は CSS 800 kB 超を出力するため禁止。
+// 新しい Carbon コンポーネントを使う際は scss/components/* を追記する。
+@use "@carbon/styles/scss/reset";
+// <Theme theme="g10"> が付与するテーマゾーンクラス(cds--g10 等)
+@use "@carbon/styles/scss/zone";
+// 使用フォントのみ @font-face を出力する(既定は Mono / Sans / Serif の 3 種)
+@use "@carbon/styles/scss/fonts" with (
+	$fonts: (
+		IBM-Plex-Mono: false,
+		IBM-Plex-Serif: false,
+	)
+);
+@use "@carbon/styles/scss/type";
+// <Grid> / <Column>
+@use "@carbon/styles/scss/grid";
+// <Tile>
+@use "@carbon/styles/scss/components/tile";
+// <Content>
+@use "@carbon/styles/scss/components/ui-shell/content";
