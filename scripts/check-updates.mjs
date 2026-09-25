@@ -5,6 +5,9 @@
 // - プレリリース版に固定した依存(nightly / canary / alpha): pnpm outdated は同じチャンネルの
 //   新しいビルドを報告しないため、npm registry を直接引いて
 //   「minimumReleaseAge を満たす最新のプレリリース」と「正式版の公開有無」を表示する
+// - @playwright/test は Dependabot の対象外(.github/dependabot.yml の ignore)のため、
+//   更新の確認はこのスクリプトが唯一の経路になる。alpha は日付形式とタイムスタンプ形式の
+//   版番号が混在するので、版番号ではなく公開日時で「最新」を決める
 //
 // 使い方: `mise run outdated`(= `pnpm outdated` + このスクリプト)
 import { readFileSync } from "node:fs";
