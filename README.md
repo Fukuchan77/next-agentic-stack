@@ -143,7 +143,7 @@ tests/
 - `allowBuilds`:install/postinstall スクリプトはデフォルトでブロックし、許可/拒否を明示。
 - Node / pnpm のバージョンを `mise.toml` と `package.json`(`packageManager` / `engines`)で固定。
 - CI で `pnpm install --frozen-lockfile` + `pnpm audit --audit-level=moderate`。
-- Dependabot(`.github/dependabot.yml`)が npm と GitHub Actions の更新 PR を毎週作成する(`cooldown: 1 日` で `minimumReleaseAge` と整合)。
+- Dependabot(`.github/dependabot.yml`)が npm と GitHub Actions の更新 PR を毎週作成する(`cooldown: 1 日` で `minimumReleaseAge` と整合)。`@playwright/test` は alpha の版番号形式の混在で誤ったダウングレード PR が作られるため対象外とし、`mise run outdated` で確認する。
 - CI の `secret-scan` ジョブで gitleaks が全履歴をスキャンする。コミット前には `mise run secret-scan:staged` を推奨。
 
 ### 依存の最新チェック

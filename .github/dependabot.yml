@@ -2,6 +2,7 @@ version: 2
 
 # 依存の更新 PR を毎週作成する。脆弱性の検出は CI の `pnpm audit`、
 # プレリリース固定の新ビルド確認は `mise run outdated`(scripts/check-updates.mjs)が担う。
+# @playwright/test は Dependabot の対象外で、`mise run outdated` だけで更新を確認する。
 # mise.toml の Node / pnpm / gitleaks は Dependabot の対象外のため `mise outdated` で確認する。
 updates:
   - package-ecosystem: "npm"
@@ -12,18 +13,25 @@ updates:
     # これがないと pnpm が解決を拒否する(公開 24 時間未満の)版の PR が作られる
     cooldown:
       default-days: 1
+    # Playwright の alpha は日付形式(1.64.0-alpha-2026-09-22)とタイムスタンプ形式
+    # (1.64.0-alpha-1789764292000)が混在し、Dependabot は後者を数値比較で「新しい」と誤判定して
+    # 古いビルドへのダウングレード PR を作る(#9)。公開日時で比較する scripts/check-updates.mjs
+    # (`mise run outdated`)で確認するため対象外にする。
+    # 正式版(1.64.0 以降)に切り替えて caret 範囲にしたら、この ignore を削除すること
+    ignore:
+      - dependency-name: "@playwright/test"
     groups:
       # ai と @ai-sdk/* は内部で @ai-sdk/provider-utils を共有するため、まとめて上げる
       ai-sdk:
         patterns:
           - "ai"
           - "@ai-sdk/*"
-      # プレリリース固定(nightly / canary / alpha)は毎日新しいビルドが出るため 1 PR に集約する
+      # プレリリース固定(nightly / canary)は毎日新しいビルドが出るため 1 PR に集約する
+      # (@playwright/test は上の ignore で対象外)
       prerelease-toolchain:
         patterns:
           - "next"
           - "typescript"
-          - "@playwright/test"
       react:
         patterns:
           - "react"
