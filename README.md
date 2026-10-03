@@ -19,6 +19,8 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
   (例: TypeScript 7 はネイティブ移植で JS の compiler API が無く、ハブが使う `openapi-typescript` や
   `next typegen` が動くかを示す必要がある。ハブの `docs/dependency-policy.md` §8.1)。
   検証では、その障害が解消したことを示します。
+  TypeScript 7 の検証結果は [docs/beta-lane/2026-10-03-ts7-compiler-api.md](docs/beta-lane/2026-10-03-ts7-compiler-api.md)
+  にあります(`next typegen` は通過、`openapi-typescript` は TS 6 を別パッケージに閉じ込めれば通過)。
 - エージェント UI 部品の標準は、ハブの ADR-0008 で **shadcn/ui + Tailwind CSS** に決まりました。
   本リポジトリは 2026-10-03 に CSS Modules から shadcn/ui + Tailwind CSS v4 へ移行しました
   (検証記録: [docs/beta-lane/2026-10-03-shadcn-tailwind.md](docs/beta-lane/2026-10-03-shadcn-tailwind.md))。
