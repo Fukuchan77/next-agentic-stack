@@ -1,10 +1,16 @@
-# リファクタリング計画: TypeScript 6 対応 & Vercel React Best Practices 検証
+# リファクタリング記録(2026-06〜2026-10)
 
 作成日: 2026-06-10
 
 > [!NOTE]
-> 2026-09-24 に Vite SPA から Next.js App Router + Vercel AI SDK 構成へ移行した([7 章](#7-nextjs--ai-sdk-スタックへの移行2026-09-24完了))。
-> 1〜6 章の Vite / Carbon 前提の記述は当時の意思決定の記録として残している。
+> 本書は完了済みの作業の記録で、未着手の項目は残っていない。
+> 当初は「TypeScript 6 対応 & Vercel React Best Practices 検証」の計画書として作成した。
+>
+> - 2026-09-24: Vite SPA から Next.js App Router + Vercel AI SDK 構成へ移行した([7 章](#7-nextjs--ai-sdk-スタックへの移行2026-09-24完了))。
+> - 2026-10-03: CSS Modules から shadcn/ui + Tailwind CSS v4 へ移行した([8 章](#8-shadcnui--tailwind-css-v4-への移行2026-10-03完了))。
+>
+> 1〜7 章の Vite / Carbon / CSS Modules 前提の記述は、当時の意思決定の記録として残している。
+> 現在の構成は [README](../README.md) と [AGENTS.md](../AGENTS.md) を参照。
 
 ## 1. TypeScript 6.0 アップデート(完了)
 
@@ -19,11 +25,11 @@ TypeScript 6.0 は 9 つのコンパイラデフォルトを変更した破壊�
 | `esModuleInterop` / `allowSyntheticDefaultImports` が常時有効に | Vite + ESM 構成のため影響なし |
 | TS 7(Go 製ネイティブコンパイラ)への布石 | 下記フォローアップ参照 |
 
-### フォローアップ(任意・低リスク)
+### フォローアップ(任意・低リスク。[6 章 Phase 2](#phase-2-参照安定性と-tsconfig-フォローアップ) で完了)
 
-- [ ] `tsconfig.json` から `useDefineForClassFields: true` を削除(`target: ES2022` 以上ではデフォルトのため冗長)
-- [ ] `verbatimModuleSyntax: true` を追加(型のみの import を強制。`UserCard.tsx` は既に `import type` を使用しており準拠済み)
-- [ ] `erasableSyntaxOnly: true` を追加(enum / namespace 等の非消去構文を禁止し、TS 7 / Node.js type stripping への移行を容易にする)
+- [x] `tsconfig.json` から `useDefineForClassFields: true` を削除(`target: ES2022` 以上ではデフォルトのため冗長)
+- [x] `verbatimModuleSyntax: true` を追加(型のみの import を強制。`UserCard.tsx` は既に `import type` を使用しており準拠済み)
+- [x] `erasableSyntaxOnly: true` を追加(enum / namespace 等の非消去構文を禁止し、TS 7 / Node.js type stripping への移行を容易にする)
 
 ## 2. Vercel React Best Practices 監査
 
@@ -205,3 +211,12 @@ TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 は移行時点で未リリー�
 - **size-limit の再設定**: Next.js の出力(`.next/static/chunks`)に合わせ、クライアント JS 240 kB / CSS 4 kB(brotli)。実測 JS 222 kB / CSS 0.8 kB
 - **データ取得**: F2 中期で予定していた SWR / TanStack Query の代わりに、Server Component から `getUsers()` を直接呼ぶ(App Router の標準パターン)
 - **E2E**: Playwright 1.64 alpha の公式コンテナイメージが存在しないため、CI は `playwright install --with-deps` でブラウザを取得する。正式版公開後にコンテナ実行へ戻す
+
+## 8. shadcn/ui + Tailwind CSS v4 への移行(2026-10-03・完了)
+
+ハブ(`vaz-agentic-ai-next`)の ADR-0008(エージェント UI は shadcn/ui + Tailwind)に向けたスパイクとして、
+画面のスタイルを CSS Modules から Tailwind CSS v4(`@tailwindcss/postcss`)と shadcn/ui(new-york)に移した。
+`*.module.css` は残っていない。size-limit の CSS 上限は 4 kB → 6 kB(実測 3.89 kB)。
+
+版・計測値・通したゲート・ハブへ持ち込むときの注意は、検証記録
+[beta-lane/2026-10-03-shadcn-tailwind.md](beta-lane/2026-10-03-shadcn-tailwind.md) にまとめている(#20)。
