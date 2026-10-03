@@ -19,6 +19,8 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
   (例: TypeScript 7 はネイティブ移植で JS の compiler API が無く、ハブが使う `openapi-typescript` や
   `next typegen` が動くかを示す必要がある。ハブの `docs/dependency-policy.md` §8.1)。
   検証では、その障害が解消したことを示します。
+  TypeScript 7 の検証結果は [docs/beta-lane/2026-10-03-ts7-compiler-api.md](docs/beta-lane/2026-10-03-ts7-compiler-api.md)
+  にあります(`next typegen` は通過、`openapi-typescript` は TS 6 を別パッケージに閉じ込めれば通過)。
 - エージェント UI 部品の標準は、ハブの ADR-0008 で **shadcn/ui + Tailwind CSS** に決まりました。
   本リポジトリは 2026-10-03 に CSS Modules から shadcn/ui + Tailwind CSS v4 へ移行しました
   (検証記録: [docs/beta-lane/2026-10-03-shadcn-tailwind.md](docs/beta-lane/2026-10-03-shadcn-tailwind.md))。
@@ -68,11 +70,13 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 
 | プロバイダ | 必要な環境変数 | 既定モデル |
 | --- | --- | --- |
-| `anthropic` | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL=claude-sonnet-5` |
-| `openai` | `OPENAI_API_KEY` | `OPENAI_MODEL=gpt-5.5` |
-| `ollama` | なし(ローカルで `ollama serve`) | `OLLAMA_MODEL=qwen3` / `OLLAMA_BASE_URL=http://localhost:11434/v1` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL=claude-opus-5-5` |
+| `openai` | `OPENAI_API_KEY` | `OPENAI_MODEL=gpt-6-sol` |
+| `ollama` | なし(ローカルで `ollama serve`) | `OLLAMA_MODEL=granite4.2:latest` / `OLLAMA_BASE_URL=http://localhost:11434/v1` |
 
 既定プロバイダは `AI_PROVIDER`(`anthropic` | `openai` | `ollama`、既定 `anthropic`)で指定します。Ollama は公式の OpenAI 互換 API に `@ai-sdk/openai-compatible` で接続します。
+
+既定モデルはハブ(`vaz-agentic-ai-next`)と揃えており、`src/lib/ai/model-allowlist.ts` が唯一の定義です(各プロバイダの先頭が既定値。Ollama は `granite4.2:3b` / `gemma4:e2b` / `gemma4:e4b` も明示指定で使える選択肢として載せています)。モデル ID をほかのファイル(テストを除く)に直書きしないでください。
 
 ### チャット API の入力制限とレート制限
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_MODEL_ID } from "./model-allowlist";
 import { PROVIDERS } from "./providers";
 
 // サーバー専用。API キー(ANTHROPIC_API_KEY / OPENAI_API_KEY)は各プロバイダ SDK が
@@ -7,9 +8,9 @@ export const providerSchema = z.enum(PROVIDERS);
 
 const aiEnvSchema = z.object({
 	AI_PROVIDER: providerSchema.default("anthropic"),
-	ANTHROPIC_MODEL: z.string().min(1).default("claude-sonnet-5"),
-	OPENAI_MODEL: z.string().min(1).default("gpt-5.5"),
-	OLLAMA_MODEL: z.string().min(1).default("qwen3"),
+	ANTHROPIC_MODEL: z.string().min(1).default(DEFAULT_MODEL_ID.anthropic),
+	OPENAI_MODEL: z.string().min(1).default(DEFAULT_MODEL_ID.openai),
+	OLLAMA_MODEL: z.string().min(1).default(DEFAULT_MODEL_ID.ollama),
 	// Ollama の OpenAI 互換エンドポイント
 	OLLAMA_BASE_URL: z.url().default("http://localhost:11434/v1"),
 	// /api/chat のレート制限(クライアントごと・固定ウィンドウ)
