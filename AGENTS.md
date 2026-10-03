@@ -59,7 +59,7 @@ src/
   app/                          # App Router (layout, page, api/chat/route.ts)
   components/ui/                # shadcn/ui components (source we own)
   lib/                          # clock / rate-limit / utils (cn)
-  lib/ai/                       # providers / env / registry / agent / tools / chat-handler / chat-request / limits
+  lib/ai/                       # providers / model-allowlist / env / registry / agent / tools / chat-handler / chat-request / limits
   sections/{domain}/
     ComponentName.tsx           # Component (Server by default; "use client" only when needed)
     getFeatureName.ts           # Data access called from Server Components
@@ -77,6 +77,7 @@ tests/
 - **Secret scanning is `gitleaks git`, never `gitleaks dir`** — `dir` would walk `node_modules/` and `.next/`. The CI job needs `fetch-depth: 0` or it scans a single commit.
 
 - **AI SDK v7 naming** — `system` → `instructions`, `stepCountIs` → `isStepCount`, `onFinish` → `onEnd`, `fullStream` → `stream`. Check `node_modules/ai/docs` (shipped with the package) before relying on memory of older versions.
+- **Model IDs live only in `src/lib/ai/model-allowlist.ts`** — `MODEL_ALLOWLIST` mirrors the hub's `packages/config/src/model-allowlist.ts` (same values, first entry = default) and `env.ts` takes its defaults from `DEFAULT_MODEL_ID`. Do not hardcode a model string anywhere else (tests excepted); update both repos together. The list is not enforced at runtime — env vars can still name another model.
 - **Keep zod out of client code** — `src/lib/ai/providers.ts` is imported by the client `Chat` component, so it must stay zod-free. Put Zod schemas in server modules (`env.ts`, `route.ts`, `tools.ts`).
 - **Server-only modules** — `env.ts`, `registry.ts`, `agent.ts` must never be imported (as values) from `"use client"` files. `import type { ChatAgentUIMessage }` is fine.
 - **Tool part names** — a tool registered as `getCurrentTime` arrives in the UI as `part.type === "tool-getCurrentTime"`.

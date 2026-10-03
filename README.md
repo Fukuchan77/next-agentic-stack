@@ -70,11 +70,13 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 
 | プロバイダ | 必要な環境変数 | 既定モデル |
 | --- | --- | --- |
-| `anthropic` | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL=claude-sonnet-5` |
-| `openai` | `OPENAI_API_KEY` | `OPENAI_MODEL=gpt-5.5` |
-| `ollama` | なし(ローカルで `ollama serve`) | `OLLAMA_MODEL=qwen3` / `OLLAMA_BASE_URL=http://localhost:11434/v1` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL=claude-opus-5-5` |
+| `openai` | `OPENAI_API_KEY` | `OPENAI_MODEL=gpt-6-sol` |
+| `ollama` | なし(ローカルで `ollama serve`) | `OLLAMA_MODEL=granite4.2:latest` / `OLLAMA_BASE_URL=http://localhost:11434/v1` |
 
 既定プロバイダは `AI_PROVIDER`(`anthropic` | `openai` | `ollama`、既定 `anthropic`)で指定します。Ollama は公式の OpenAI 互換 API に `@ai-sdk/openai-compatible` で接続します。
+
+既定モデルはハブ(`vaz-agentic-ai-next`)と揃えており、`src/lib/ai/model-allowlist.ts` が唯一の定義です(各プロバイダの先頭が既定値。Ollama は `granite4.2:3b` / `gemma4:e2b` / `gemma4:e4b` も明示指定で使える選択肢として載せています)。モデル ID をほかのファイル(テストを除く)に直書きしないでください。
 
 ### チャット API の入力制限とレート制限
 
