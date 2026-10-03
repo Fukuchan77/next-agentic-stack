@@ -38,6 +38,15 @@ updates:
           - "react-dom"
           - "@types/react"
           - "@types/react-dom"
+      # shadcn/ui の実行時依存。グループにしないと 1 パッケージ 1 PR になる。
+      # tailwindcss / @tailwindcss/postcss は devDependency なので下の dev-tooling に入る
+      ui:
+        patterns:
+          - "radix-ui"
+          - "class-variance-authority"
+          - "clsx"
+          - "tailwind-merge"
+          - "lucide-react"
       dev-tooling:
         dependency-type: "development"
 

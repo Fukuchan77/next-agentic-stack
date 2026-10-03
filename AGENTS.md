@@ -50,18 +50,18 @@ Direct pnpm equivalents (when mise is unavailable):
 - **Biome 2.5** — linting and formatting (with the `next`, `react` and `test` domains)
 - **Vitest 5** — unit testing ([vitest.config.ts](vitest.config.ts), jsdom)
 - **Playwright 1.64 alpha** — E2E testing ([playwright.config.ts](playwright.config.ts))
-- **CSS Modules** — scoped component styles (`.module.css`); theme tokens in `src/app/globals.css`
+- **shadcn/ui (new-york) + Tailwind CSS 4** — Tailwind runs through `@tailwindcss/postcss` ([postcss.config.mjs](postcss.config.mjs)); theme tokens in `src/app/globals.css`; components in `src/components/ui`
 
 ### Directory structure
 
 ```text
 src/
   app/                          # App Router (layout, page, api/chat/route.ts)
-  lib/                          # clock / rate-limit
+  components/ui/                # shadcn/ui components (source we own)
+  lib/                          # clock / rate-limit / utils (cn)
   lib/ai/                       # providers / env / registry / agent / tools / chat-handler / chat-request / limits
   sections/{domain}/
     ComponentName.tsx           # Component (Server by default; "use client" only when needed)
-    ComponentName.module.css    # Scoped CSS module
     getFeatureName.ts           # Data access called from Server Components
 tests/
   *.spec.ts(x)                  # Vitest unit tests
@@ -80,11 +80,14 @@ tests/
 - **Keep zod out of client code** — `src/lib/ai/providers.ts` is imported by the client `Chat` component, so it must stay zod-free. Put Zod schemas in server modules (`env.ts`, `route.ts`, `tools.ts`).
 - **Server-only modules** — `env.ts`, `registry.ts`, `agent.ts` must never be imported (as values) from `"use client"` files. `import type { ChatAgentUIMessage }` is fine.
 - **Tool part names** — a tool registered as `getCurrentTime` arrives in the UI as `part.type === "tool-getCurrentTime"`.
+- **shadcn/ui components are copied source** — `src/components/ui/*` is ours to edit; [components.json](components.json) points the `shadcn` CLI at `src/app/globals.css` and `@/components/ui`. Use the native `<select>` (`NativeSelect`), not Radix `Select`, where a plain dropdown will do: it keeps label association and Playwright's `selectOption` working.
+- **Tailwind scans `src/` only** — `globals.css` imports `tailwindcss` with `source("../")`. Without it Tailwind's auto-detection also reads `README.md`/`docs/` and ships utilities for words found there. Dark mode is Tailwind's default `prefers-color-scheme` variant; tokens switch in a media query, not a `.dark` class.
+- **CSS budget is mostly fixed cost** — preflight + theme variables are ~2.2 kB brotli before any utility class; the `size-limit` CSS cap is 6 kB.
 - **Path alias** — `@/*` → `src/*` (tsconfig `paths`; mirrored in `vitest.config.ts`).
 - **Vitest globals enabled** — tests use `test`, `expect`, `vi` without imports (typed via `tests/tsconfig.json`). Route handler tests use `// @vitest-environment node`.
 - **`next-env.d.ts` is generated** — it is gitignored; `pnpm typecheck` runs `next typegen` first so `tsc` works on a fresh clone.
 - **Playwright webServer runs `next` directly** — under pnpm 12, `pnpm start`/`pnpm exec` do not forward the shutdown signal to `next-server`, which hangs Playwright after the run. Always launch E2E via `pnpm test:e2e` / `pnpm exec playwright test` so `node_modules/.bin` is on `PATH`.
 - **E2E never calls a real LLM** — `/api/chat` is mocked with `page.route` returning a UI Message Stream (SSE).
 - **Prerelease pins** — `typescript`, `next`, `@playwright/test` are pinned to exact prerelease builds that are at least 24 h old (to satisfy `minimumReleaseAge`). Do not switch them to ranges.
-- **Dependabot** — weekly npm + GitHub Actions PRs with `cooldown: 1 day` (mirrors `minimumReleaseAge`). `ai`/`@ai-sdk/*` are grouped because they share `@ai-sdk/provider-utils`; `next`/`typescript` prerelease pins are grouped into one PR. `@playwright/test` is ignored — Dependabot ranks timestamp-style alphas (`1.64.0-alpha-1789764292000`) above date-style ones and opens downgrade PRs, so check it with `mise run outdated` (compares publish time). Remove the ignore once it moves to a stable caret range.
+- **Dependabot** — weekly npm + GitHub Actions PRs with `cooldown: 1 day` (mirrors `minimumReleaseAge`). `ai`/`@ai-sdk/*` are grouped because they share `@ai-sdk/provider-utils`; `next`/`typescript` prerelease pins are grouped into one PR; shadcn/ui runtime deps (`radix-ui`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`) are the `ui` group. `@playwright/test` is ignored — Dependabot ranks timestamp-style alphas (`1.64.0-alpha-1789764292000`) above date-style ones and opens downgrade PRs, so check it with `mise run outdated` (compares publish time). Remove the ignore once it moves to a stable caret range.
 - **Build scripts** — pnpm 12 uses `allowBuilds` (not `onlyBuiltDependencies`/`ignoredBuiltDependencies`) in `pnpm-workspace.yaml`.
