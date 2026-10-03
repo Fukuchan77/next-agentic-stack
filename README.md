@@ -5,6 +5,24 @@
   単体テスト・E2E テスト・CI・Lint/Format・バンドルサイズ監視・サプライチェーン対策を同梱。
 </p>
 
+## 🧪 このリポジトリの役割(TypeScript のベータ検証レーン)
+
+2026-10-03 から、本リポジトリは統合ハブ
+[`vaz-agentic-ai-next`](https://github.com/Fukuchan77/vaz-agentic-ai-next) の
+**TypeScript ベータ検証レーン**を兼ねます。ハブは安定版チャネルで、TypeScript 6 / Vitest 4 / Node 24 LTS
+に意図的に留まっています。本リポジトリでは、それらの次の版(TypeScript 7 / Vitest 5 / Node 26 /
+Next.js canary / Playwright alpha)を先に動かします。
+
+- 検証した結果は、ハブの `docs/dependency-policy.md` §8 の手順でだけハブへ持ち込みます。
+  設定ファイルを丸ごとコピーすることはしません。ハブ側の据え置きにはそれぞれ具体的な障害があります
+  (例: Vitest 5 はテスト間でモック状態をリセットし、ハブの `apps/web/tests/auth.spec.ts` を壊す)。
+  検証では、その障害が解消したことを示します。
+- エージェント UI 部品の標準は、ハブの ADR-0008 で **shadcn/ui + Tailwind CSS** に決まりました。
+  本リポジトリは現在 CSS Modules です。shadcn/ui + Tailwind を最新の React / Next.js canary / TS 7 の
+  組み合わせで先に検証する場としても使います。
+- 本番相当の機能(認証・RBAC・耐久ワークフロー・承認フロー・RAG・Python API レーン)はハブにあります。
+  本リポジトリは軽量なスターターのままにして、それらを複製しません。
+
 ## 🌈 技術スタック
 
 | 領域 | 採用技術 | バージョン |
