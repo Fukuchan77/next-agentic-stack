@@ -2,10 +2,13 @@
 
 import { useChat } from "@ai-sdk/react";
 import { type FormEvent, useId, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import type { ChatAgentUIMessage } from "@/lib/ai/agent";
 import { MAX_USER_TEXT_CHARS } from "@/lib/ai/limits";
 import { isProvider, PROVIDER_LABELS, PROVIDERS, type Provider } from "@/lib/ai/providers";
-import styles from "./Chat.module.css";
+import { cn } from "@/lib/utils";
 
 interface ChatProps {
 	defaultProvider: Provider;
@@ -27,23 +30,32 @@ export function Chat({ defaultProvider }: ChatProps) {
 	}
 
 	return (
-		<section className={styles.chat} aria-label="Chat">
-			<ol className={styles.messages} aria-live="polite">
+		<section className="grid gap-4" aria-label="Chat">
+			<ol className="m-0 grid list-none gap-3 p-0" aria-live="polite">
 				{messages.map((message) => (
-					<li key={message.id} className={styles.message} data-role={message.role}>
-						<span className={styles.role}>{message.role === "user" ? "You" : "AI"}</span>
+					<li
+						key={message.id}
+						className={cn(
+							"rounded-lg bg-muted px-4 py-3",
+							message.role === "user" && "border-l-[3px] border-primary",
+						)}
+						data-role={message.role}
+					>
+						<span className="text-xs font-semibold text-muted-foreground uppercase">
+							{message.role === "user" ? "You" : "AI"}
+						</span>
 						{message.parts.map((part, index) => {
 							const key = `${message.id}-${index}`;
 							switch (part.type) {
 								case "text":
 									return (
-										<p key={key} className={styles.text}>
+										<p key={key} className="mt-1 whitespace-pre-wrap">
 											{part.text}
 										</p>
 									);
 								case "tool-getCurrentTime":
 									return (
-										<p key={key} className={styles.tool}>
+										<p key={key} className="mt-1 font-mono text-sm text-muted-foreground">
 											{part.state === "output-available"
 												? `🕒 ${part.output.formatted}`
 												: part.state === "output-error"
@@ -60,16 +72,16 @@ export function Chat({ defaultProvider }: ChatProps) {
 			</ol>
 
 			{error && (
-				<p role="alert" className={styles.error}>
+				<p role="alert" className="text-destructive">
 					Something went wrong. Check the server logs and your provider settings.
 				</p>
 			)}
 
-			<form className={styles.form} onSubmit={handleSubmit}>
-				<label htmlFor={providerSelectId} className={styles.visuallyHidden}>
+			<form className="flex gap-2" onSubmit={handleSubmit}>
+				<label htmlFor={providerSelectId} className="sr-only">
 					Provider
 				</label>
-				<select
+				<NativeSelect
 					id={providerSelectId}
 					value={provider}
 					onChange={(event) => {
@@ -79,13 +91,13 @@ export function Chat({ defaultProvider }: ChatProps) {
 					disabled={isBusy}
 				>
 					{PROVIDERS.map((id) => (
-						<option key={id} value={id}>
+						<NativeSelectOption key={id} value={id}>
 							{PROVIDER_LABELS[id]}
-						</option>
+						</NativeSelectOption>
 					))}
-				</select>
-				<input
-					className={styles.input}
+				</NativeSelect>
+				<Input
+					className="flex-1"
 					value={input}
 					onChange={(event) => setInput(event.currentTarget.value)}
 					placeholder="Ask something…"
@@ -93,13 +105,13 @@ export function Chat({ defaultProvider }: ChatProps) {
 					aria-label="Message"
 				/>
 				{isBusy ? (
-					<button type="button" onClick={() => stop()}>
+					<Button type="button" variant="outline" onClick={() => stop()}>
 						Stop
-					</button>
+					</Button>
 				) : (
-					<button type="submit" disabled={!input.trim()}>
+					<Button type="submit" disabled={!input.trim()}>
 						Send
-					</button>
+					</Button>
 				)}
 			</form>
 		</section>

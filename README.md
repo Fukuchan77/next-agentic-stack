@@ -18,7 +18,9 @@ Next.js canary / Playwright alpha)を先に動かします。
   (例: Vitest 5 はテスト間でモック状態をリセットし、ハブの `apps/web/tests/auth.spec.ts` を壊す)。
   検証では、その障害が解消したことを示します。
 - エージェント UI 部品の標準は、ハブの ADR-0008 で **shadcn/ui + Tailwind CSS** に決まりました。
-  本リポジトリは現在 CSS Modules です。shadcn/ui + Tailwind を最新の React / Next.js canary / TS 7 の
+  本リポジトリは 2026-10-03 に CSS Modules から shadcn/ui + Tailwind CSS v4 へ移行しました
+  (検証記録: [docs/beta-lane/2026-10-03-shadcn-tailwind.md](docs/beta-lane/2026-10-03-shadcn-tailwind.md))。
+  shadcn/ui + Tailwind を最新の React / Next.js canary / TS 7 の
   組み合わせで先に検証する場としても使います。
 - 本番相当の機能(認証・RBAC・耐久ワークフロー・承認フロー・RAG・Python API レーン)はハブにあります。
   本リポジトリは軽量なスターターのままにして、それらを複製しません。
@@ -37,7 +39,7 @@ Next.js canary / Playwright alpha)を先に動かします。
 | Lint / Format | [Biome](https://biomejs.dev) | 2.5 |
 | 単体テスト | [Vitest](https://vitest.dev) + [Testing Library](https://testing-library.com) | 5.0 |
 | E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) | 1.64(alpha) |
-| スタイル | CSS Modules | — |
+| UI / スタイル | [shadcn/ui](https://ui.shadcn.com)(new-york)+ [Tailwind CSS](https://tailwindcss.com)(`@tailwindcss/postcss`) | — / 4.3 |
 | ツール/タスク管理 | [mise](https://mise.jdx.dev)(Node / pnpm バージョン + タスクランナー) | — |
 | バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) | 14 |
 | シークレットスキャン | [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30 |
@@ -108,16 +110,18 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 
 ## 📁 フォルダ構成
 
-機能(ドメイン)単位でコンポーネント・データ取得・スコープド CSS を同居させる **feature-based colocation** を採用しています。
+機能(ドメイン)単位でコンポーネントとデータ取得を同居させる **feature-based colocation** を採用しています。
 
 ```text
 src/
   app/                            # Next.js App Router
     layout.tsx                    # ルートレイアウト(metadata)
     page.tsx                      # トップページ(Server Component)
-    globals.css                   # グローバルスタイル(CSS 変数・ダークモード)
+    globals.css                   # Tailwind の読み込みと shadcn/ui のテーマトークン(ダークモード含む)
     api/chat/route.ts             # チャット API(Route Handler。実体は lib/ai/chat-handler.ts)
+  components/ui/                  # shadcn/ui の部品(ソースをコピーして所有する。components.json 参照)
   lib/
+    utils.ts                      # cn()(clsx + tailwind-merge)
     clock.ts                      # 現在時刻の注入点(Clock。テストで時刻を固定する)
     rate-limit.ts                 # クライアントごとの固定ウィンドウ・レート制限
   lib/ai/
@@ -131,7 +135,6 @@ src/
     tools.ts                      # エージェントのツール定義(入力は Zod スキーマ)
   sections/{domain}/
     ComponentName.tsx             # 表示用コンポーネント("use client" は必要な場合のみ)
-    ComponentName.module.css      # スコープド CSS Module
     getFeatureName.ts             # Server Component から呼ぶデータ取得関数
 tests/
   *.spec.ts(x)                    # Vitest 単体テスト
@@ -151,7 +154,7 @@ tests/
 - **エージェントループの上限**:`ToolLoopAgent` は `stopWhen: isStepCount(5)` で暴走を防ぐ。
 - **LLM 呼び出しをテストでモック**:単体テストは `ai/test` の `MockLanguageModelV4`、E2E は `page.route` で UI Message Stream をモックし、API キーなしで CI が回る。
 - **型のみの import は `import type`**:Biome の `useImportType` で強制。
-- **バンドルサイズのガードレール**:`size-limit` を CI で検査(クライアント JS 240 kB / CSS 4 kB、brotli)。
+- **バンドルサイズのガードレール**:`size-limit` を CI で検査(クライアント JS 240 kB / CSS 6 kB、brotli)。
 
 ## 🔒 サプライチェーン対策
 

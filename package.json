@@ -15,15 +15,21 @@
 		"@ai-sdk/openai-compatible": "^3.0.61",
 		"@ai-sdk/react": "^4.0.127",
 		"ai": "^7.0.124",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"lucide-react": "^1.49.0",
 		"next": "16.4.0-canary.56",
+		"radix-ui": "^1.6.7",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
+		"tailwind-merge": "^3.7.0",
 		"zod": "^4.6.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
 		"@playwright/test": "1.64.0-alpha-2026-09-29",
 		"@size-limit/file": "^14.1.0",
+		"@tailwindcss/postcss": "^4.3.3",
 		"@testing-library/dom": "^10.4.1",
 		"@testing-library/jest-dom": "^7.0.1",
 		"@testing-library/react": "^16.3.3",
@@ -34,6 +40,7 @@
 		"@vitest/coverage-v8": "^5.0.3",
 		"jsdom": "^30.1.1",
 		"size-limit": "^14.1.0",
+		"tailwindcss": "^4.3.3",
 		"typescript": "7.1.0-dev.20261001.1",
 		"vitest": "^5.0.3"
 	},
@@ -59,7 +66,7 @@
 		{
 			"name": "Client CSS (brotli)",
 			"path": ".next/static/chunks/**/*.css",
-			"limit": "4 kB"
+			"limit": "6 kB"
 		}
 	]
 }
