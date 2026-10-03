@@ -1,0 +1,25 @@
+{
+	"feature_name": "001-hub-beta-lane",
+	"language": "ja",
+	"phase": "requirements-generated",
+	"created_at": "2026-10-03T19:40:00+0900",
+	"updated_at": "2026-10-03T19:40:00+0900",
+	"project_description": "統合ハブ vaz-agentic-ai-next の TypeScript ベータ検証レーンとしての作業を仕様化する。検証記録の形式を定め、ハブのエージェント UI 部品をプレリリース版のツールチェーンで確かめ、ハブが据え置いている TypeScript 7 の残課題と Node 26 の判断材料を集める。",
+	"source_documents": {
+		"hub_policy": [
+			"vaz-agentic-ai-next docs/dependency-policy.md §8",
+			"vaz-agentic-ai-next docs/adr/0008-ui-component-standard.md",
+			"vaz-agentic-ai-next specs/008-hub-consolidation-followup/spec.md"
+		],
+		"hub_counterpart": "vaz-agentic-ai-next specs/009-agent-ui-and-beta-intake/",
+		"existing_records": [
+			"docs/beta-lane/2026-10-03-shadcn-tailwind.md",
+			"docs/beta-lane/2026-10-03-ts7-compiler-api.md"
+		]
+	},
+	"approvals": {
+		"requirements": { "generated": true, "approved": false },
+		"design": { "generated": false, "approved": false },
+		"tasks": { "generated": false, "approved": false }
+	}
+}
