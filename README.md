@@ -198,6 +198,8 @@ push のたびに GitHub Actions で以下を実行します。
 ## 🤖 AI コーディングエージェント向け
 
 リポジトリ固有の規約・非自明なパターンは [`AGENTS.md`](AGENTS.md) にまとめています。
+非交渉の開発原則とガバナンスは
+[`.sdd/memory/constitution.md`](.sdd/memory/constitution.md) を正本とします。
 
 ## ⚖️ ライセンス
 

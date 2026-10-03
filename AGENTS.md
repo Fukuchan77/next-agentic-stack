@@ -2,6 +2,16 @@
 
 This file provides guidance to AI coding agents when working with code in this repository.
 
+## Project Governance
+
+- `.sdd/memory/constitution.md` is the authoritative source for non-negotiable
+  project principles and governance.
+- Read and apply every relevant `MUST` rule before producing a design, tasks, or
+  implementation. Record constitution compliance in SDD plans and reviews.
+- If this file or another project artifact conflicts with the constitution, the
+  constitution takes precedence. Amend the constitution and its Sync Impact
+  Report before adopting a conflicting workflow.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 ## This is NOT the Next.js you know
