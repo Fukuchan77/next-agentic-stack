@@ -114,6 +114,7 @@ mise run dev              # 開発サーバーを http://localhost:3000 で起�
 | 依存の最新チェック | `mise run outdated` | `pnpm outdated` + `node scripts/check-updates.mjs` |
 | シークレットスキャン(全履歴) | `mise run secret-scan` | `gitleaks git --redact .` |
 | シークレットスキャン(ステージ済み) | `mise run secret-scan:staged` | `gitleaks git --staged --redact .` |
+| 完了前の品質ゲート | `mise run gate` | lint → typecheck → test:run → build を直列実行 |
 
 ## 📁 フォルダ構成
 
@@ -188,7 +189,7 @@ TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 に対応する stable が表示
 
 1. `mise run outdated` で候補が公開から 24 時間以上経過していることを確認する。
 2. 一つの依存だけを対象にした隔離変更を作り、プレリリース構成の baseline と stable 候補を比較する。
-3. `mise run lint`、`mise run typecheck`、`mise run test:run`、`mise run build` を通し、影響範囲に応じて `mise run test:e2e` と `mise run size` も実行する。
+3. `mise run gate`(lint → typecheck → test:run → build を直列実行)を通し、影響範囲に応じて `mise run test:e2e` と `mise run size` も実行する。
 4. 挙動差がある場合だけでなく差分がない場合も、版・対象 commit・コマンドと結果・採否を `docs/beta-lane/YYYY-MM-DD-<topic>.md` に記録する。
 5. 記録した証拠を基に採用または据え置きを判断し、採用する場合だけ pin、lockfile、README、関連する CI/Dependabot 設定を同じ隔離変更で同期する。
 

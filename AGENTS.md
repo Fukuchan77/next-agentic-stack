@@ -39,6 +39,7 @@ Tasks are managed via **mise**. Always check [mise.toml](mise.toml) for availabl
 | Bundle size        | `mise run size`      |
 | Dependency updates | `mise run outdated`  |
 | Secret scan        | `mise run secret-scan` / `secret-scan:staged` |
+| Pre-completion gate | `mise run gate` (lint → typecheck → test:run → build, in sequence) |
 
 Direct pnpm equivalents (when mise is unavailable):
 

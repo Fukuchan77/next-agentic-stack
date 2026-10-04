@@ -19,8 +19,8 @@ Templates Status:
 Deferred Items:
   - Review the global tasks template and `sdd-tasks` skill in a separate,
     cross-project change; project-specific principles must not be hardcoded there.
-  - Add a `mise run gate` task in a separate tooling change; until then use the
-    explicit verification tasks required by Principle 5.
+  - Resolved 2026-10-04: `mise run gate` added in a separate tooling change; Principle 5's
+    "run `mise run gate` when it exists" clause now applies.
 -->
 
 # Next Agentic Stack Constitution
