@@ -1,11 +1,15 @@
 # 検証記録: TypeScript 7 と compiler API 依存ツール(2026-10-03)
+- 対象ハブコミット: `1a08a97`
+- 検証したコミット: `cb5f86e`
+- 対象の据え置き: docs/dependency-policy.md §8.1 typescript 6.x — TS 7 のネイティブ移植では JS の compiler API が package root にない
+- 判定: 部分解消
+- 未解決事項: `openapi-typescript` の TS 7 対応版で 2 snapshot の生成結果が byte 単位で一致するまで、codegen の TypeScript 6 隔離を外せない
 
 ハブ(`vaz-agentic-ai-next`)の `docs/dependency-policy.md` §8.1 が `typescript` 6.x を据え置く理由
 「TS 7 はネイティブ移植で、JS の compiler API が無い」について、ハブが使う compiler API 依存のツール
 (`openapi-typescript`、`next typegen`)が TS 7 下で通るかを確かめた。§8.2-1 の「ベータレーン側の記録」にあたる。
 
-対象: ハブ `main`@`1a08a97`、本リポジトリ `main`@`cb5f86e`。どちらのリポジトリの依存も変更していない
-(ハブ相当の構成はスクラッチのコピーで組んだ)。
+どちらのリポジトリの依存も変更していない(ハブ相当の構成はスクラッチのコピーで組んだ)。
 
 ## 結論
 
@@ -31,7 +35,20 @@
 | Node.js | 24.21.0(ハブの `node = "24"`)/ 26.10.0(本リポジトリ) |
 | pnpm | 12.6.0 |
 
-## 結果
+## 通したゲート
+
+失敗した command も含め、実行した command と result を対応付ける。構成ごとの差分と失敗内容は
+後続の詳細に残す。
+
+| Command | Result |
+| --- | --- |
+| `pnpm typecheck` | 4 構成で通過。`next typegen` と `tsc` 2 件が成功した |
+| `pnpm build` | 4 構成で通過。Next 16.3.7 / TS 7.0.2 のハブ相当構成を含め、型検査も成功した |
+| `pnpm build`（`src/lib/clock.ts` に意図的な型エラーを追加） | 期待どおり失敗。TS2322 と `Failed to type check.` を確認した |
+| `pnpm exec openapi-typescript <hub>/packages/schemas/src/generated/openapi.snapshot.json -o out.ts`（TS 7 のみ） | 起動時に失敗。`ts.factory` が `undefined` で `createKeywordTypeNode` を読めなかった |
+| `pnpm --filter codegen exec openapi-typescript <hub>/packages/schemas/src/generated/openapi.snapshot.json -o "$PWD/a.ts"`（codegen package に TS 6.0.3 を隔離） | 通過。2 snapshot から生成できた |
+| `diff a.ts <hub>/packages/schemas/src/generated/agent-service.ts`（API service 側も同様に比較） | 通過。生成した 2 ファイルはハブのコミット済みファイルと byte 単位で同一だった |
+| `pnpm exec tsc --noEmit --strict`（生成した 2 ファイルを TS 7 で検査） | 通過。ハブの `apps/web` が TS 7 で生成型を読む経路に問題はなかった |
 
 ### Next.js(`next typegen` / `next build`)
 

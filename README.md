@@ -14,6 +14,7 @@ Next.js 安定版に意図的に留まっています。本リポジトリでは
 Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-10-03 にハブへ取り込まれ、
 両リポジトリで同じメジャーになりました。
 
+- 検証記録の一覧と待機中のトリガーは [beta-lane index](docs/beta-lane/README.md) で管理します。
 - 検証した結果は、ハブの `docs/dependency-policy.md` §8 の手順でだけハブへ持ち込みます。
   設定ファイルを丸ごとコピーすることはしません。ハブ側の据え置きにはそれぞれ具体的な障害があります
   (例: TypeScript 7 はネイティブ移植で JS の compiler API が無く、ハブが使う `openapi-typescript` や
@@ -49,9 +50,9 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 | シークレットスキャン | [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30 |
 
 > [!WARNING]
-> TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 は執筆時点(2026-09)で未リリースのため、
-> プレリリース版(nightly / canary / alpha)を**特定バージョンに固定**して使用しています。
-> 正式版の公開後は `package.json` を安定版に更新してください([更新手順](#-プレリリース版の更新))。
+> TypeScript 7.1 nightly / Next.js 16.4 canary / Playwright 1.64 alpha を、
+> `package.json` で**特定バージョンに exact pin**して使用しています。stable の検知は自動切替ではなく、
+> 公開から 24 時間経過後に隔離評価を始める合図です([評価手順](#-プレリリース版の更新))。
 
 ## 🚀 はじめに
 
@@ -175,17 +176,21 @@ tests/
 
 ### 依存の最新チェック
 
-最新機能の検証・試作用のテンプレートのため、作業を始める前など適宜 `mise run outdated` で最新状況を確認してください。範囲指定の依存は `pnpm outdated`、プレリリース固定(nightly / canary / alpha)は [`scripts/check-updates.mjs`](scripts/check-updates.mjs) が npm registry から「公開 24 時間以上経過した最新ビルド」と「正式版の公開有無」を表示します(読み取りのみ。`package.json` は書き換えません)。
+最新機能の検証・試作用のテンプレートのため、作業を始める前など適宜 `mise run outdated` で最新状況を確認してください。範囲指定の依存は `pnpm outdated`、プレリリース固定(nightly / canary / alpha)は [`scripts/check-updates.mjs`](scripts/check-updates.mjs) が npm registry を確認します。reporter は `minimumReleaseAge` の 24 時間 cutoff を適用し、同じ channel の更新候補と対応 stable を表示します。さらに監視行として、`openapi-typescript` の latest・公開時刻・TypeScript peer/dependency range と、nightly の base に依存しない最新 TypeScript stable を表示します。TypeScript stable minor は、現在の [TS 7 記録](docs/beta-lane/2026-10-03-ts7-compiler-api.md) の 7.0 を比較基準にします。
+
+registry の HTTP error、取得例外、不正 JSON が一件でもあれば、残りの package を処理して error 行を表示した後に non-zero で失敗します。古い結果を最新として扱いません。stable の表示は切替指示ではなく評価開始の合図です。実行後は [beta-lane index の待機中トリガー表](docs/beta-lane/README.md#待機中のトリガー)で、`openapi-typescript` の公式 release note、ハブへの agent-ui source の着地、Node 26 Active LTS も確認してください。reporter は読み取り専用で、`package.json` を書き換えません。
 
 詳細な意思決定の記録は [`docs/REFACTORING_PLAN.md`](docs/REFACTORING_PLAN.md) を参照してください。
 
 ## 🔁 プレリリース版の更新
 
-TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 の正式版が公開されたら:
+TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 に対応する stable が表示されても、直接切り替えません。
 
-1. `package.json` の `typescript` / `next` / `@playwright/test` を正式版に更新(公開から 24 時間経過後)
-2. `.github/workflows/tests.yml` の e2e ジョブを公式コンテナイメージ(`mcr.microsoft.com/playwright:v1.64.x-noble`)に戻す
-3. `pnpm typecheck && pnpm test:run && pnpm build && pnpm test:e2e` で検証
+1. `mise run outdated` で候補が公開から 24 時間以上経過していることを確認する。
+2. 一つの依存だけを対象にした隔離変更を作り、プレリリース構成の baseline と stable 候補を比較する。
+3. `mise run lint`、`mise run typecheck`、`mise run test:run`、`mise run build` を通し、影響範囲に応じて `mise run test:e2e` と `mise run size` も実行する。
+4. 挙動差がある場合だけでなく差分がない場合も、版・対象 commit・コマンドと結果・採否を `docs/beta-lane/YYYY-MM-DD-<topic>.md` に記録する。
+5. 記録した証拠を基に採用または据え置きを判断し、採用する場合だけ pin、lockfile、README、関連する CI/Dependabot 設定を同じ隔離変更で同期する。
 
 ## 🤝 CI
 
@@ -198,6 +203,8 @@ push のたびに GitHub Actions で以下を実行します。
 ## 🤖 AI コーディングエージェント向け
 
 リポジトリ固有の規約・非自明なパターンは [`AGENTS.md`](AGENTS.md) にまとめています。
+非交渉の開発原則とガバナンスは
+[`.sdd/memory/constitution.md`](.sdd/memory/constitution.md) を正本とします。
 
 ## ⚖️ ライセンス
 
