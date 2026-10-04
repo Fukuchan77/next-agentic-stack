@@ -49,6 +49,18 @@ description = "Auto-fix lint and format issues"
 run = "pnpm run typecheck"
 description = "Generate Next.js route types and type check (src + tests)"
 
+# 完了前の標準品質ゲート(constitution Principle 5)。`depends` は並列実行になり、
+# `next typegen`(typecheck)と `next build` が共有 `.next` を同時に書いて壊すため、
+# run の task 参照で lint → typecheck → test:run → build を直列に実行する
+[tasks.gate]
+run = [
+  { task = "lint" },
+  { task = "typecheck" },
+  { task = "test:run" },
+  { task = "build" },
+]
+description = "Run lint, typecheck, unit tests and build in sequence (pre-completion gate)"
+
 [tasks.size]
 run = "pnpm exec size-limit"
 description = "Check client bundle size against limits (requires build)"
