@@ -14,26 +14,26 @@ Status values:
 
 | Requirement | Spec | Status | Design | Task | Test | Commit |
 |-------------|------|--------|--------|------|------|--------|
-| REQ-001 | 1.1 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-6, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | | |
-| REQ-002 | 1.2 | Immediate | DES-3.1, DES-3.3, DES-5.1, DES-6, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | | |
-| REQ-003 | 1.3 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | | |
-| REQ-004 | 1.4 | Immediate | DES-3.2, DES-3.3, DES-4, DES-5.2, DES-7 | T-1.1, T-4.1, T-4.2 | | |
-| REQ-005 | 1.5 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | | |
-| REQ-006 | 2.1 | Event-gated (trigger table) | DES-2.1, DES-3.2, DES-3.5, DES-5.2, DES-5.5, DES-6.1 | T-1.1, T-4.1 | | |
-| REQ-007 | 2.2 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-6.1, DES-7 | T-1.2 | | |
-| REQ-008 | 2.3 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-5.6, DES-6.1, DES-7 | T-1.2 | | |
-| REQ-009 | 2.4 | Event-gated | DES-3.1, DES-3.5, DES-5.1, DES-5.5, DES-7 | T-1.2 | | |
-| REQ-010 | 2.5 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-7 | T-1.2 | | |
-| REQ-011 | 3.1 | Immediate | DES-3.2, DES-3.3, DES-3.4, DES-5.2, DES-5.4, DES-6, DES-7 | T-1.1, T-3.1, T-3.2, T-3.3, T-4.1, T-4.2 | | |
-| REQ-012 | 3.2 | Event-gated (reporter notifies) | DES-2.1, DES-3.1, DES-3.6, DES-5.1, DES-5.5, DES-7 | T-1.2 | | |
-| REQ-013 | 3.3 | Event-gated | DES-3.1, DES-3.6, DES-5.1, DES-7 | T-1.2 | | |
-| REQ-014 | 3.4 | Partial | DES-2.1, DES-3.1, DES-3.4, DES-3.7, DES-5.4, DES-5.5, DES-7 | T-1.2, T-3.1, T-3.2 | | |
-| REQ-015 | 4.1 | Event-gated (trigger table) | DES-2.1, DES-3.1, DES-3.2, DES-3.8, DES-5.2, DES-5.5, DES-7 | T-1.1, T-1.2, T-4.1 | | |
-| REQ-016 | 4.2 | Event-gated | DES-3.1, DES-3.8, DES-5.1, DES-7 | T-1.2 | | |
-| REQ-017 | 4.3 | Event-gated | DES-3.1, DES-3.8, DES-5.1 | T-1.2 | | |
-| REQ-018 | 5.1 | Immediate | DES-3.3, DES-3.4, DES-3.9, DES-5.3, DES-5.4, DES-7 | T-1.1, T-3.1, T-3.2, T-3.3, T-4.2 | | |
-| REQ-019 | 5.2 | Partial | DES-2.1, DES-3.1, DES-3.4, DES-3.9, DES-5.4, DES-5.5, DES-7 | T-1.2, T-3.1, T-3.2 | | |
-| REQ-020 | 5.3 | Immediate | DES-3.3, DES-3.9, DES-5.3, DES-7 | T-1.1, T-3.3, T-4.2 | | |
+| REQ-001 | 1.1 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-6, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-002 | 1.2 | Immediate | DES-3.1, DES-3.3, DES-5.1, DES-6, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-003 | 1.3 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-004 | 1.4 | Immediate | DES-3.2, DES-3.3, DES-4, DES-5.2, DES-7 | T-1.1, T-4.1, T-4.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-005 | 1.5 | Immediate | DES-3.1, DES-3.3, DES-4, DES-5.1, DES-7 | T-1.1, T-1.2, T-2.1, T-2.2, T-4.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-006 | 2.1 | Event-gated (trigger table) | DES-2.1, DES-3.2, DES-3.5, DES-5.2, DES-5.5, DES-6.1 | T-1.1, T-4.1 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-007 | 2.2 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-6.1, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-008 | 2.3 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-5.6, DES-6.1, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-009 | 2.4 | Event-gated | DES-3.1, DES-3.5, DES-5.1, DES-5.5, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-010 | 2.5 | Event-gated | DES-2.1, DES-3.5, DES-5.5, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-011 | 3.1 | Immediate | DES-3.2, DES-3.3, DES-3.4, DES-5.2, DES-5.4, DES-6, DES-7 | T-1.1, T-3.1, T-3.2, T-3.3, T-4.1, T-4.2 | `tests/repo/beta-lane.spec.ts`; `tests/repo/check-updates.spec.ts` | `7cd7516` |
+| REQ-012 | 3.2 | Event-gated (reporter notifies) | DES-2.1, DES-3.1, DES-3.6, DES-5.1, DES-5.5, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-013 | 3.3 | Event-gated | DES-3.1, DES-3.6, DES-5.1, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-014 | 3.4 | Partial | DES-2.1, DES-3.1, DES-3.4, DES-3.7, DES-5.4, DES-5.5, DES-7 | T-1.2, T-3.1, T-3.2 | `tests/repo/beta-lane.spec.ts`; `tests/repo/check-updates.spec.ts` | `7cd7516` |
+| REQ-015 | 4.1 | Event-gated (trigger table) | DES-2.1, DES-3.1, DES-3.2, DES-3.8, DES-5.2, DES-5.5, DES-7 | T-1.1, T-1.2, T-4.1 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-016 | 4.2 | Event-gated | DES-3.1, DES-3.8, DES-5.1, DES-7 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-017 | 4.3 | Event-gated | DES-3.1, DES-3.8, DES-5.1 | T-1.2 | `tests/repo/beta-lane.spec.ts` | `7cd7516` |
+| REQ-018 | 5.1 | Immediate | DES-3.3, DES-3.4, DES-3.9, DES-5.3, DES-5.4, DES-7 | T-1.1, T-3.1, T-3.2, T-3.3, T-4.2 | `tests/repo/beta-lane.spec.ts`; `tests/repo/check-updates.spec.ts` | `7cd7516` |
+| REQ-019 | 5.2 | Partial | DES-2.1, DES-3.1, DES-3.4, DES-3.9, DES-5.4, DES-5.5, DES-7 | T-1.2, T-3.1, T-3.2 | `tests/repo/beta-lane.spec.ts`; `tests/repo/check-updates.spec.ts` | `7cd7516` |
+| REQ-020 | 5.3 | Immediate | DES-3.3, DES-3.9, DES-5.3, DES-7 | T-1.1, T-3.3, T-4.2 | `tests/repo/beta-lane.spec.ts`; `tests/repo/check-updates.spec.ts` | `7cd7516` |
 
 Coverage: 20/20 requirements have task links — 8 Immediate, 2 Partial, 10 Event-gated.
 
@@ -50,6 +50,6 @@ Coverage: 20/20 requirements have task links — 8 Immediate, 2 Partial, 10 Even
 
 ## Gaps
 
-- No requirement lacks a task link.
-- The Design column lists every design section for the requirement, including probe components of the event-gated lanes. Tasks trace only the sections they implement now. DES-2.1, DES-3.5, DES-5.5, DES-5.6 and DES-6.1 are traced by the template, trigger-table and gate tasks (T-1.2, T-4.1, T-4.2); the probe components DES-3.6–DES-3.9 appear in no `_Traces:_` yet and gain tasks after the plan amendment.
-- The 10 Event-gated requirements (and the probe half of the 2 Partial ones) have no implementation task yet, by design. Each lane needs its trigger, then a plan amendment (DES-6.1) and design re-approval, then new tasks.
+- No requirement lacks a task, test, or shipped implementation commit link.
+- The Design column lists every design section for the requirement, including probe components of the event-gated lanes. Tasks trace only the sections they implement now. DES-2.1, DES-3.5, DES-5.5, DES-5.6 and DES-6.1 are traced by the template, trigger-table and gate tasks (T-1.2, T-4.1, T-4.2); the probe components DES-3.6–DES-3.9 gain implementation tasks after the plan amendment.
+- The 10 Event-gated requirements (and the probe half of the 2 Partial ones) intentionally ship only their entry criteria, evidence contract, notification, and deferral guard in `7cd7516`. Each lane still needs its trigger, plan amendment (DES-6.1), design re-approval, and new tasks before a probe implementation.

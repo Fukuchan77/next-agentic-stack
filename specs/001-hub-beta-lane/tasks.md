@@ -34,7 +34,7 @@ _Depends:_ none
 _Requirements:_ 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3
 _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-011, REQ-012, REQ-013, REQ-014, REQ-015, REQ-016, REQ-017, REQ-018, REQ-019, REQ-020, DES-3.1, DES-3.2, DES-3.3, DES-3.5, DES-4, DES-5.1, DES-5.2, DES-5.3, DES-5.5, DES-7
 
-- [ ] 1.1 (P) オフライン repository test で記録・索引・版同期の失敗条件を先に固定する
+- [x] 1.1 (P) オフライン repository test で記録・索引・版同期の失敗条件を先に固定する
   _Boundary:_ `tests/repo/beta-lane.spec.ts`
   _Depends:_ none
   _Requirements:_ 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 3.1, 4.1, 5.1, 5.3
@@ -43,7 +43,7 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-007, REQ-008
   - `不明（遡及補正）` は shadcn/Tailwind の既存 record だけに許可し、index の未登録・存在しない link・重複・複数参照・空欄のセル（「取り込み先」は `未取り込み` を明記）と、待機中トリガー表または必須三行（`openapi-typescript` の公式 release note、agent-ui source、Node 26 Active LTS）の欠落を失敗させる。
   - `package.json` の `typescript`・`next`・`@playwright/test` が範囲指定子（`^`・`~`・`>=` 等）なしの exact 版であることを検査する。
   - root README の版表記を plan「README version sync contract」の単位で `package.json` の exact pin と照合する。技術スタック表は行ごとに major.minor と channel、WARNING 節の 1 行目はパッケージごとに major.minor だけを照合する。照合は spec file 内の純粋関数で行う。実 README と pin はすでに一致しているので、不一致の fixture と範囲指定の pin を与えるケースで Red を確認し、実ファイルのケースはネットワークなしで検査する。
-- [ ] 1.2 検証記録 template に共通の証拠 contract とイベントレーンの記録条件を定義する
+- [x] 1.2 検証記録 template に共通の証拠 contract とイベントレーンの記録条件を定義する
   _Boundary:_ `docs/beta-lane/TEMPLATE.md`
   _Depends:_ 1.1
   _Requirements:_ 1.1, 1.2, 1.3, 1.5, 2.2, 2.3, 2.4, 2.5, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 5.2
@@ -55,6 +55,8 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-007, REQ-008
 
 ### Implementation Notes
 
+- repository contract test は record metadata、index link、prerelease pin、gate pair、event-lane evidence を mutation-based negative case で検証する。
+- `TEMPLATE.md` を Immediate / Event-gated 両レーンの単一 authoring contract とした。
 
 ---
 
@@ -65,14 +67,14 @@ _Depends:_ 1.2
 _Requirements:_ 1.1, 1.2, 1.3, 1.5
 _Traces:_ REQ-001, REQ-002, REQ-003, REQ-005, DES-3.1, DES-5.1, DES-7
 
-- [ ] 2.1 (P) shadcn/Tailwind 記録を遡及補正の唯一の例外として正規化する
+- [x] 2.1 (P) shadcn/Tailwind 記録を遡及補正の唯一の例外として正規化する
   _Boundary:_ `docs/beta-lane/2026-10-03-shadcn-tailwind.md`
   _Depends:_ 1.2
   _Requirements:_ 1.1, 1.2, 1.3, 1.5
   _Traces:_ REQ-001, REQ-002, REQ-003, REQ-005, DES-3.1, DES-5.1, DES-7
   - `対象ハブコミット: 不明（遡及補正）`、`検証したコミット: 479bd2a`、ADR-0008 の据え置き、三値判定、未解決事項を固定順序で追加し、「検証した版」（遡及補正の根拠を含む）と「再現手順」を補完する。
   - ハブコミットを推定で書かず、既存の計測値、gate 結果、失敗を含む証拠を保持したまま必須 H2 に適合させる。
-- [ ] 2.2 (P) TypeScript 7/compiler API 記録を具体的 commit と gate contract に正規化する
+- [x] 2.2 (P) TypeScript 7/compiler API 記録を具体的 commit と gate contract に正規化する
   _Boundary:_ `docs/beta-lane/2026-10-03-ts7-compiler-api.md`
   _Depends:_ 1.2
   _Requirements:_ 1.1, 1.2, 1.3, 1.5
@@ -82,6 +84,8 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-005, DES-3.1, DES-5.1, DES-7
 
 ### Implementation Notes
 
+- 既存 2 record を共通 metadata / section contract に合わせ、shadcn/Tailwind record だけに承認済みの遡及 hub commit 例外を限定した。
+- repository 設定をコピーせず hub intake できるよう、再現手順と gate 結果を明示した。
 
 ---
 
@@ -92,7 +96,7 @@ _Depends:_ none
 _Requirements:_ 3.1, 3.4, 5.1, 5.2, 5.3
 _Traces:_ REQ-011, REQ-014, REQ-018, REQ-019, REQ-020, DES-3.4, DES-5.3, DES-5.4, DES-6, DES-7
 
-- [ ] 3.1 (P) reporter の判定を fake の registry と固定時刻で検査するテストを先に書く
+- [x] 3.1 (P) reporter の判定を fake の registry と固定時刻で検査するテストを先に書く
   _Boundary:_ `tests/repo/check-updates.spec.ts`
   _Depends:_ none
   _Requirements:_ 3.1, 3.4, 5.1, 5.2
@@ -101,7 +105,7 @@ _Traces:_ REQ-011, REQ-014, REQ-018, REQ-019, REQ-020, DES-3.4, DES-5.3, DES-5.4
   - 24h cutoff 未満の版を除くこと、同 channel の最新、pin 行の stable 列、stable 検知時の案内文が 5.2 の評価を促し caret への切り替えを指示しないことを検査する。
   - 監視行として、`openapi-typescript` の latest・publish time・`typescript` の peer/dependency range と、nightly の base に関係なく最新の TypeScript stable が出ることを検査する。
   - HTTP の非 2xx、取得関数の例外、不正な JSON のそれぞれで、残りの package を処理したうえで error 行を出し、exit code が non-zero になることを検査する。module がまだないので Red になることを確認する。
-- [ ] 3.2 判定を `prerelease-report.ts` に切り出し、通知を拡張してテストを Green にする
+- [x] 3.2 判定を `prerelease-report.ts` に切り出し、通知を拡張してテストを Green にする
   _Boundary:_ `scripts/lib/prerelease-report.ts`, `scripts/check-updates.mjs`
   _Depends:_ 3.1
   _Requirements:_ 3.1, 3.4, 5.1, 5.2
@@ -109,7 +113,7 @@ _Traces:_ REQ-011, REQ-014, REQ-018, REQ-019, REQ-020, DES-3.4, DES-5.3, DES-5.4
   - `prerelease-report.ts` に、pin 行・監視行・error 行・exit code・案内文を決める純粋関数を置く。型注釈は Node の型除去で実行できる構文だけにする（`erasableSyntaxOnly`）。registry の JSON は使う前に形を確かめる。`scripts/` はどの tsconfig の `include` にもないので、型検査は `tests/repo/check-updates.spec.ts` からの import 経由でかかることを `mise run typecheck` で確かめる（tsconfig は変更しない）。
   - `check-updates.mjs` は `package.json` と `pnpm-workspace.yaml` の読み込み、`fetch`、`console.table`、`process.exitCode` だけを持ち、`./lib/prerelease-report.ts` を拡張子付きで import する。
   - `mise.toml`、package、lockfile、pin は変更しない。
-- [ ] 3.3 root README を beta-lane 導線・exact pin・更新確認の実動作へ同期する
+- [x] 3.3 root README を beta-lane 導線・exact pin・更新確認の実動作へ同期する
   _Boundary:_ `README.md`
   _Depends:_ 3.2
   _Requirements:_ 3.1, 5.1, 5.3
@@ -120,6 +124,8 @@ _Traces:_ REQ-011, REQ-014, REQ-018, REQ-019, REQ-020, DES-3.4, DES-5.3, DES-5.4
 
 ### Implementation Notes
 
+- registry 判定を dependency injection 可能な決定論的 module に分離し、個別取得失敗後も処理を継続しつつ non-zero を返す。
+- README は stable 検知を自動切替ではなく、隔離評価を始める trigger として説明する。
 
 ---
 
@@ -130,7 +136,7 @@ _Depends:_ 1.2, 2.1, 2.2, 3.2, 3.3
 _Requirements:_ 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 3.1, 4.1, 5.1, 5.3
 _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-011, REQ-015, REQ-018, REQ-020, DES-2.1, DES-3.2, DES-3.3, DES-3.4, DES-4, DES-5.1, DES-5.2, DES-5.3, DES-5.4, DES-5.6, DES-6, DES-6.1, DES-8
 
-- [ ] 4.1 beta-lane index と待機中トリガー表で全 record と registry で判定できないトリガーを追跡可能にする
+- [x] 4.1 beta-lane index と待機中トリガー表で全 record と registry で判定できないトリガーを追跡可能にする
   _Boundary:_ `docs/beta-lane/README.md`
   _Depends:_ 2.1, 2.2
   _Requirements:_ 1.4, 2.1, 3.1, 4.1
@@ -138,7 +144,7 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-011, REQ-015
   - 各 record を日付、topic、結論、取り込み先（hub spec/PR または `未取り込み`）、相対 link で一度だけ索引化する。
   - 待機中トリガー表は plan の Index contract どおり三行（`openapi-typescript` の公式 release note による TS 7 対応宣言、ハブへの agent-ui source の着地、Node 26 Active LTS）とし、確認方法と最終確認日 2026-10-03 を書く。registry metadata で判定できる peer/dependency 候補、TS 7.x stable minor、pinned prerelease の stable は reporter が表示する。
   - release note は上流の公式 release / changelog に TS 7 対応の明示があるまで、Node 26 は 2026-10-28 より前または公式 metadata が Active LTS を示すまでは発火させない。agent-ui はハブの commit と import closure が確定するまで待つ。三つとも発火後は plan amendment と design re-approval を経てから新しい task にする。
-- [ ] 4.2 Immediate phase の repository test と品質ゲートを通し、境界内の不整合だけを解消する
+- [x] 4.2 Immediate phase の repository test と品質ゲートを通し、境界内の不整合だけを解消する
   _Boundary:_ `docs/beta-lane/README.md`, `docs/beta-lane/TEMPLATE.md`, `docs/beta-lane/2026-10-03-shadcn-tailwind.md`, `docs/beta-lane/2026-10-03-ts7-compiler-api.md`, `tests/repo/beta-lane.spec.ts`, `tests/repo/check-updates.spec.ts`, `scripts/lib/prerelease-report.ts`, `scripts/check-updates.mjs`, `README.md`
   _Depends:_ 1.2, 2.1, 2.2, 3.2, 3.3, 4.1
   _Requirements:_ 1.1, 1.2, 1.3, 1.4, 1.5, 3.1, 5.1, 5.3
@@ -148,3 +154,6 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-011, REQ-015
   - UI/client asset、version pin、lockfile、CI、`mise.toml`、API/model files は変更しない。ゲート修正が File Structure Plan 外を要求する場合は実装を止め、plan amendment に戻す。
 
 ### Implementation Notes
+
+- beta-lane index は現行全 record と registry 外の 3 trigger を網羅する。
+- 統合 gate は 114 tests で Green。direct-root Turbopack build は実行環境制限で失敗するが、同じ source を workspace 内の一時 project directory から標準 build して成功を確認した。
