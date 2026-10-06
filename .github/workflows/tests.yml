@@ -2,6 +2,10 @@ name: tests
 
 on: push
 
+# GITHUB_TOKEN は読み取り専用にする(書き込み権限を要する job はない)
+permissions:
+  contents: read
+
 # 同一ブランチへの連続 push で古い実行を自動キャンセルする
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -13,10 +17,10 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # Node / pnpm は mise.toml の固定バージョンで用意する
-      - uses: jdx/mise-action@v5
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -32,9 +36,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: jdx/mise-action@v5
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -50,9 +54,9 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: jdx/mise-action@v5
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
