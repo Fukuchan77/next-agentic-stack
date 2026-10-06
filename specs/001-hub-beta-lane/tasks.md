@@ -157,3 +157,38 @@ _Traces:_ REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-006, REQ-011, REQ-015
 
 - beta-lane index は現行全 record と registry 外の 3 trigger を網羅する。
 - 統合 gate は 114 tests で Green。direct-root Turbopack build は実行環境制限で失敗するが、同じ source を workspace 内の一時 project directory から標準 build して成功を確認した。
+
+---
+
+## 5. Agent UI probe（DES-6.1 Amendment 1、2026-10-06 再承認）
+
+_Boundary:_ plan DES-6.1 Amendment 1 の file 表（`src/components/agent-ui/*`、`src/components/ui/{alert,badge,textarea,card}.tsx`、`tests/agent-ui/*`、`docs/beta-lane/2026-10-06-agent-ui.md`、`docs/beta-lane/README.md`）
+_Depends:_ 4.2
+_Requirements:_ 2.1, 2.2, 2.3, 2.4, 2.5
+_Traces:_ REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, DES-3.5, DES-5.5, DES-5.6, DES-6.1, DES-7
+
+- [x] 5.1 ハブ `e26f6fe` の agent-ui closure を無改変でコピーし、sha256 一致を確認する
+  _Boundary:_ `src/components/agent-ui/*`, `src/components/ui/{alert,badge,textarea}.tsx`, `tests/agent-ui/{ApprovalCard,StreamingStatus,ToolExecution}.spec.tsx`
+  _Depends:_ none
+  _Requirements:_ 2.1, 2.5
+  _Traces:_ REQ-006, REQ-010, DES-3.5, DES-6.1
+- [x] 5.2 `card.tsx` に `CardHeader`・`CardTitle`・`CardFooter` を既存様式で追加し、既存 export を変えない
+  _Boundary:_ `src/components/ui/card.tsx`
+  _Depends:_ 5.1
+  _Requirements:_ 2.1, 2.4
+  _Traces:_ REQ-006, REQ-009, DES-6.1
+- [x] 5.3 ハブ test が覆わない承認済み・却下の fixture を補う
+  _Boundary:_ `tests/agent-ui/fixture-states.spec.tsx`
+  _Depends:_ 5.1
+  _Requirements:_ 2.2
+  _Traces:_ REQ-007, DES-3.5, DES-6.1
+- [x] 5.4 Gate matrix の Agent UI 行と scratch bundle を通し、日付付き記録と索引を残す
+  _Boundary:_ `docs/beta-lane/2026-10-06-agent-ui.md`, `docs/beta-lane/README.md`
+  _Depends:_ 5.2, 5.3
+  _Requirements:_ 2.3, 2.4
+  _Traces:_ REQ-008, REQ-009, DES-5.5, DES-5.6, DES-6.1
+
+### Implementation Notes
+
+- 部品側の変更は不要だった（2.4 の対象なし）。primitive の世代差は starter の `card.tsx` への追加で吸収した。
+- `ToolExecution` の `output-denied` は `errorText` なしだと「完了」badge になる。記録の「ハブへ持ち込むときの注意」でハブへ報告する。
