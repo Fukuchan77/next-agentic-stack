@@ -16,3 +16,8 @@ minimumReleaseAge: 1440
 # - sharp(next/image 用): optionalDependencies のビルド済みバイナリ(@img/sharp-*)で動作する
 allowBuilds:
   sharp: false
+
+# 推移的依存の脆弱版を、親パッケージのメジャー更新なしで最小限に引き上げる。
+# - source-map-js <1.2.2: GHSA-68fv-2mgg-jv7q(next/vite > postcss 経由。1.2.2 は 2026-09-30 公開)
+overrides:
+  source-map-js@<1.2.2: ^1.2.2
