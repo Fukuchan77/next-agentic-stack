@@ -311,6 +311,48 @@ spec 2.3 が挙げる `typecheck`・`vitest`・`build`・`size` は Agent UI レ
 - Node 26: 日付付き verification record。starter 本体の Node pins は hub probe のためには変更しない。
 - Stable transition: candidate ごとの package/version files、lockfile、README、Dependabot ignore、日付付き record を一つの lane として列挙する。
 
+#### Amendment 1: Agent UI（2026-10-06）
+
+Entry condition は成立した。ハブ `main` には 2026-10-04 に `apps/web/src/components/agent-ui/` が着地し（追加 commit `6832995`・`9d592eb`・`e15f9ad`、最終変更 `bb6ccdd`）、2026-10-06 の待機中トリガー確認で検知した。本 amendment は上記 Agent UI 行を次の具体的 path に置き換える。design approval は本改訂で取り消し、再承認後に tasks を生成する。
+
+- **対象ハブコミット**: `e26f6fef92f074278f1d2a5a057f362d5c6560f4`（2026-10-06 時点のハブ `main`）。closure の各 file はこの commit から取得し、sha256 を記録に残す。
+- **Import closure**（ハブ側、同 commit で監査）:
+
+| ハブ path | sha256（先頭 16 桁） | 依存 |
+|-----------|----------------------|------|
+| `apps/web/src/components/agent-ui/ApprovalCard.tsx` | `751c7c76413c8258` | `ui/alert`・`ui/button`・`ui/card`（`Card`・`CardHeader`・`CardTitle`・`CardContent`・`CardFooter`）・`ui/textarea`・`lib/utils` |
+| `apps/web/src/components/agent-ui/StreamingStatus.tsx` | `53353852c3945bf1` | `react`・`ui/alert`・`lib/utils` |
+| `apps/web/src/components/agent-ui/ToolExecution.tsx` | `8d4bddc78e02e3c6` | `react`・`ui/alert`・`ui/badge`・`lib/utils` |
+| `apps/web/src/components/ui/alert.tsx` | `241f65d71ee79091` | `class-variance-authority`・`react`・`lib/utils` |
+| `apps/web/src/components/ui/badge.tsx` | `1da210f06262efc7` | `class-variance-authority`・`react`・`lib/utils` |
+| `apps/web/src/components/ui/textarea.tsx` | `543f863ea196c7d4` | `react`・`lib/utils` |
+| `apps/web/tests/ApprovalCard.spec.tsx` | `6c6b010763d73b9a` | Testing Library（`react`・`user-event`） |
+| `apps/web/tests/StreamingStatus.spec.tsx` | `7fed091f745b9c2d` | Testing Library（`react`） |
+| `apps/web/tests/ToolExecution.spec.tsx` | `787ce43e45a8529f` | Testing Library（`react`） |
+
+- **中立 props の確認**: 3 部品の props は文字列・真偽値・callback だけで、`@vaz/schemas`、API、`fetch`、永続化を import しない（DES-7 の「product-only schema/API を要求」には該当しない）。外部 package は本リポジトリの既存依存（`class-variance-authority`・`clsx`・`tailwind-merge`・`@testing-library/*`）で閉じ、新規 dependency は不要。
+- **Primitive の差分と方針**: 本リポジトリの `button.tsx` と `card.tsx` はハブと別の shadcn 世代（本リポジトリは function component + `data-slot`、ハブは `forwardRef`）。`Button` は `variant`（`default`・`outline`）と `disabled` だけが使われ API 互換なので既存のまま使う。`card.tsx` は `Card`・`CardContent` しか export しないため、`ApprovalCard` は無改変では typecheck を通らない。agent-ui source を変えずに通すため、`card.tsx` に `CardHeader`・`CardTitle`・`CardFooter` を本リポジトリの既存様式で追加する（既存 2 export と `UserCard` の見た目は変えない）。`alert`・`badge`・`textarea` は本リポジトリに無いので、ハブの file を無改変でコピーする。primitive の見た目の差（card の padding など）は互換性差分として記録し、ゲートの対象にはしない。
+
+| File | Create/Modify | Responsibility |
+|------|---------------|----------------|
+| `src/components/agent-ui/ApprovalCard.tsx` | Create | ハブ file の無改変コピー（sha256 一致を記録で確認）。 |
+| `src/components/agent-ui/StreamingStatus.tsx` | Create | 同上。 |
+| `src/components/agent-ui/ToolExecution.tsx` | Create | 同上。 |
+| `src/components/ui/alert.tsx` | Create | ハブ file の無改変コピー。 |
+| `src/components/ui/badge.tsx` | Create | ハブ file の無改変コピー。 |
+| `src/components/ui/textarea.tsx` | Create | ハブ file の無改変コピー。 |
+| `src/components/ui/card.tsx` | Modify | `CardHeader`・`CardTitle`・`CardFooter` を既存様式で追加する。既存 export は変えない。 |
+| `tests/agent-ui/ApprovalCard.spec.tsx` | Create | ハブ test の無改変コピー（fixture と callback spy のみ）。 |
+| `tests/agent-ui/StreamingStatus.spec.tsx` | Create | 同上。 |
+| `tests/agent-ui/ToolExecution.spec.tsx` | Create | 同上。 |
+| `tests/agent-ui/fixture-states.spec.tsx` | Create（条件付き） | spec 2.2 の 5 状態（承認待ち・承認済み・却下・ツール結果・ストリーミング中）のうちハブ test が覆わない状態だけを fixture で補う。全状態が覆われていれば作らず、その旨を記録に書く。 |
+| `docs/beta-lane/2026-10-06-agent-ui.md` | Create | 日付付き verification record（TEMPLATE contract。closure の checksum、primitive 差分、Gate matrix の Agent UI 行の結果、scratch bundle の JS/CSS 計測）。 |
+| `docs/beta-lane/README.md` | Modify | 検証記録の索引に 1 行追加し、待機中トリガー表の agent-ui 行と最終確認日を更新する。 |
+
+- **Scratch bundle**: 全 3 部品を import/render する temporary entry は追跡対象外の scratch workspace にだけ置き、`mise run build`・`mise run size` 相当の JS/CSS を計測する。showcase route、approval API、storage は追加しない。
+- **予算**: 240 kB JS / 6 kB CSS は緩和しない。agent-ui の Tailwind utility は `src/` 走査で通常 build の CSS に入るため、CSS 予算超過は 2.3 未解消として記録して止める（DES-7）。
+- **Vitest 対象**: copied tests は既存の jsdom project が拾う path（`tests/**`）に置く。拾われない場合は `vitest.config.ts` の変更を本表に追加する amendment に戻る。
+
 ## Error Handling & Edge Cases (DES-7)
 
 - record filename が日付規則に合わない → index 対象にせず成功させるのではなく、beta-lane 配下の未認識 Markdown として test failure にする（1.1）。
@@ -353,7 +395,7 @@ spec 2.3 が挙げる `typecheck`・`vitest`・`build`・`size` は Agent UI レ
 | Language / artifact location | ✅ | plan、research、records は日本語。code identifiers/path は英語。成果物は既存 `specs/001-hub-beta-lane/` と `docs/beta-lane/` に置く。 |
 | Next.js current-version guidance | ✅ | agent-ui/build harness を実装する event phase では、実装前に installed `node_modules/next/dist/docs/` の TypeScript/testing/build guidance を確認する。Immediate phase は Next.js code を変更しない。 |
 | UI standard and client boundary | ✅ | ハブ source と既存 shadcn/Tailwind を再利用し、product route を追加しない。native select/API/chat guard/model allowlist は非変更。 |
-| SDD ordering and approval | ✅ | 2026-10-03 の `/sdd-analyze` 指摘と、その後の承認状態・release note 経路・traceability 表現・stable 切替方針の整合修正を反映した spec・plan・tasks を、リポジトリ所有者が同日に承認した（`spec.json` の approvals は requirements・design・tasks とも `approved: true`）。以後 spec または plan を改訂した場合は承認を取り消し、再承認を経てから実装を続ける。本 plan は全 numeric requirements と MUST rules を trace する。event phase は plan amendment と design re-approval 後に task 化する。 |
+| SDD ordering and approval | ✅ | 2026-10-03 の `/sdd-analyze` 指摘と、その後の承認状態・release note 経路・traceability 表現・stable 切替方針の整合修正を反映した spec・plan・tasks を、リポジトリ所有者が同日に承認した（`spec.json` の approvals は requirements・design・tasks とも `approved: true`）。以後 spec または plan を改訂した場合は承認を取り消し、再承認を経てから実装を続ける。本 plan は全 numeric requirements と MUST rules を trace する。event phase は plan amendment と design re-approval 後に task 化する。2026-10-06 の DES-6.1 Amendment 1（Agent UI）で design と tasks の承認を取り消した（`spec.json`）。再承認までは Agent UI の file を作らない。 |
 | Governance / exceptions | ✅ | 原則 2 の例外が 1 件（shadcn 記録のハブコミット）。理由・範囲・期限・承認者は DES-5.1「Constitution exceptions」に記録し、2026-10-03 に design 承認とあわせて承認された。`mise run gate` は既存の明示的代替経路を使い、別 tooling change へ留保する。 |
 
 ## Requirements Traceability
