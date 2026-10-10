@@ -19,5 +19,8 @@ allowBuilds:
 
 # 推移的依存の脆弱版を、親パッケージのメジャー更新なしで最小限に引き上げる。
 # - source-map-js <1.2.2: GHSA-68fv-2mgg-jv7q(next/vite > postcss 経由。1.2.2 は 2026-09-30 公開)
+# - sharp <0.35.5: GHSA-wq5f-xc86-pv6w / CVE-2026-96889(next > sharp 経由。librsvg 依存の脆弱性。
+#   0.35.5 は 2026-09-27 公開)
 overrides:
   source-map-js@<1.2.2: ^1.2.2
+  sharp@<0.35.5: ^0.35.5
