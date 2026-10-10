@@ -1,0 +1,40 @@
+name: codeql
+
+on:
+  push:
+  # 変更が無い期間もコードは変わらないが CodeQL のクエリ/脆弱性パターンは更新され続けるため、
+  # 週次でも再スキャンする(毎週月曜 10:17 JST 付近)
+  schedule:
+    - cron: "17 1 * * 1"
+
+# コード スキャン結果のアップロードには security-events: write が必要
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+# 同一ブランチへの連続 push で古い実行を自動キャンセルする
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      # JavaScript/TypeScript はインタプリタ言語のため build-mode: none で解析する
+      # (next build を実行する必要はない)
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+        with:
+          category: "/language:javascript-typescript"
