@@ -10,7 +10,7 @@ const minimumReleaseAgeMinutes = Number(
 );
 const report = await createPrereleaseReport({
 	dependencies: { ...pkg.dependencies, ...pkg.devDependencies },
-	fetchPackage: (name) => fetch(`https://registry.npmjs.org/${name.replace("/", "%2F")}`),
+	fetchPackage: (name) => fetch(`https://registry.npmjs.org/${name.replaceAll("/", "%2F")}`),
 	minimumReleaseAgeMinutes,
 	now: new Date(),
 });
