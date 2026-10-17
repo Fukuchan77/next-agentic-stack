@@ -37,7 +37,7 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 | ランタイム | [Node.js](https://nodejs.org) | 26.10 |
 | 言語 | [TypeScript](https://www.typescriptlang.org)(Go 製ネイティブコンパイラ) | 7.1(nightly) |
 | パッケージ管理 | [pnpm](https://pnpm.io) | 12.6 |
-| フレームワーク | [Next.js](https://nextjs.org)(App Router + Turbopack) | 16.4(canary) |
+| フレームワーク | [Next.js](https://nextjs.org)(App Router + Turbopack) | 16.5(canary) |
 | UI | [React](https://react.dev) | 19.3 |
 | AI | [Vercel AI SDK](https://ai-sdk.dev)(Anthropic / OpenAI / Ollama) | 7.0 |
 | バリデーション | [Zod](https://zod.dev) | 4.6 |
@@ -50,7 +50,7 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 | シークレットスキャン | [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30 |
 
 > [!WARNING]
-> TypeScript 7.1 nightly / Next.js 16.4 canary / Playwright 1.64 alpha を、
+> TypeScript 7.1 nightly / Next.js 16.5 canary / Playwright 1.64 alpha を、
 > `package.json` で**特定バージョンに exact pin**して使用しています。stable の検知は自動切替ではなく、
 > 公開から 24 時間経過後に隔離評価を始める合図です([評価手順](#-プレリリース版の更新))。
 
@@ -185,7 +185,7 @@ registry の HTTP error、取得例外、不正 JSON が一件でもあれば、
 
 ## 🔁 プレリリース版の更新
 
-TypeScript 7.1 / Next.js 16.4 / Playwright 1.64 に対応する stable が表示されても、直接切り替えません。
+TypeScript 7.1 / Next.js 16.5 / Playwright 1.64 に対応する stable が表示されても、直接切り替えません。
 
 1. `mise run outdated` で候補が公開から 24 時間以上経過していることを確認する。
 2. 一つの依存だけを対象にした隔離変更を作り、プレリリース構成の baseline と stable 候補を比較する。
