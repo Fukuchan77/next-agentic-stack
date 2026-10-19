@@ -17,8 +17,8 @@
 		"ai": "^7.0.140",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"lucide-react": "^1.57.0",
-		"next": "16.5.0-canary.15",
+		"lucide-react": "^1.59.0",
+		"next": "16.5.0-canary.17",
 		"radix-ui": "^1.8.1",
 		"react": "^19.3.1",
 		"react-dom": "^19.3.1",
@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
-		"@playwright/test": "1.64.0-alpha-2026-10-05",
+		"@playwright/test": "1.65.0-alpha-2026-10-18",
 		"@size-limit/file": "^14.2.0",
 		"@tailwindcss/postcss": "^4.3.3",
 		"@testing-library/dom": "^10.4.1",
@@ -41,7 +41,7 @@
 		"jsdom": "^30.1.2",
 		"size-limit": "^14.2.0",
 		"tailwindcss": "^4.3.3",
-		"typescript": "7.1.0-dev.20261016.1",
+		"typescript": "7.1.0-dev.20261018.1",
 		"vitest": "^5.0.5"
 	},
 	"scripts": {

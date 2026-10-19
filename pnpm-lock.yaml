@@ -192,11 +192,11 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       lucide-react:
-        specifier: ^1.57.0
-        version: 1.58.0(@types/react@19.3.0)(react@19.3.1)
+        specifier: ^1.59.0
+        version: 1.59.0(@types/react@19.3.0)(react@19.3.1)
       next:
-        specifier: 16.5.0-canary.15
-        version: 16.5.0-canary.15(@playwright/test@1.64.0-alpha-2026-10-05)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 16.5.0-canary.17
+        version: 16.5.0-canary.17(@playwright/test@1.65.0-alpha-2026-10-18)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       radix-ui:
         specifier: ^1.8.1
         version: 1.8.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -217,8 +217,8 @@ importers:
         specifier: ^2.5.15
         version: 2.5.15
       '@playwright/test':
-        specifier: 1.64.0-alpha-2026-10-05
-        version: 1.64.0-alpha-2026-10-05
+        specifier: 1.65.0-alpha-2026-10-18
+        version: 1.65.0-alpha-2026-10-18
       '@size-limit/file':
         specifier: ^14.2.0
         version: 14.2.0(size-limit@14.2.0)
@@ -259,8 +259,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3
       typescript:
-        specifier: 7.1.0-dev.20261016.1
-        version: 7.1.0-dev.20261016.1
+        specifier: 7.1.0-dev.20261018.1
+        version: 7.1.0-dev.20261018.1
       vitest:
         specifier: ^5.0.5
         version: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(jsdom@30.1.2)(vite@8.3.0(@types/node@26.6.5)(jiti@2.7.0))
@@ -659,57 +659,57 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@next/env@16.5.0-canary.15':
-    resolution: {integrity: sha512-BlDPlwxkApWp7xFUdSnDgfnuzYVwQRVzV88SyK2iOgeOjhzeyMsXEcbT6aBA3FiPEtuZIj0rON9gp0O520sCDA==}
+  '@next/env@16.5.0-canary.17':
+    resolution: {integrity: sha512-hIa0nYNKex0k807cnbFkK8BKjrzRHNEJIJg9rJWYKd4r7NH8NdF57a3jf2XZDbHAhE8crjP52iMGRHPViM266w==}
 
-  '@next/swc-darwin-arm64@16.5.0-canary.15':
-    resolution: {integrity: sha512-hjXWqo/nQk8laJqd44TLuRgloWuQ1fBq1FL2cH3Yx44UZ3x67oT0XT9VIxPVontpKdFIE5wXbWYyEpgynufMZA==}
+  '@next/swc-darwin-arm64@16.5.0-canary.17':
+    resolution: {integrity: sha512-Sq6rUXc1eqYu/nY4N9M8OfRGx9cY449jTKt04yCXaN4Vb1uyHxgrQYyDpLuRpZI1QesB9HQeMmjaqlx1IOX/FQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@next/swc-darwin-x64@16.5.0-canary.15':
-    resolution: {integrity: sha512-t0g6HQ4dadvy1uVLC63m4SFMfNW8gQ6xwZCfFswNyWIiv7pN9DUVdIV9b8BZR/h6Lupk1H4HwFkw5ho7RHG3og==}
+  '@next/swc-darwin-x64@16.5.0-canary.17':
+    resolution: {integrity: sha512-0sXNNKPqCjUCbWx7hZtYsBJktkdqtvcUJi5jbFCxOXXSGYfiERpn2/8v4lhlkbSdbTWMr5CPCWofOHriRCAk1g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@next/swc-linux-arm64-gnu@16.5.0-canary.15':
-    resolution: {integrity: sha512-KW55YjFlWf4WMODtyLFfa6FwWxWF3CNVUjV6Fxb2cdI8JGYYmYOaCBMM8qNboKcByc8rgXLdCn7+6H/CgDwlPg==}
+  '@next/swc-linux-arm64-gnu@16.5.0-canary.17':
+    resolution: {integrity: sha512-dDRoRfCMMBaxnMX65YEBMr8NcSlq0tU8b1ug1jEiC9z7RxCxtGABNfCM022KxTXTnfOwjdqcYTExZoBVs2w0cQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@next/swc-linux-arm64-musl@16.5.0-canary.15':
-    resolution: {integrity: sha512-DU8pKFUSWYL2A/HQpH1l1D/Od2zW5kaJhHTmH0WEYxPTeZpncq7f81txTwR+eyNNqTeRzRFpTACSBeLSaO+/DA==}
+  '@next/swc-linux-arm64-musl@16.5.0-canary.17':
+    resolution: {integrity: sha512-6ISD5kO72Gkb3NoZPc1Hx5Nd+oNY/qFVz9lOuF1DwxANeeSkUbh2ICxi0lxW4T9U8mZgGilVc2VoleeeDr4idw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@next/swc-linux-x64-gnu@16.5.0-canary.15':
-    resolution: {integrity: sha512-1XEp8V5G97M969AZ5wi5hmoSNNgHZ53kf/9YpvlbyEdx6f7Gza3kCmtuyGj2eOkU8mgOSdv4Kfa/HekJiiggRw==}
+  '@next/swc-linux-x64-gnu@16.5.0-canary.17':
+    resolution: {integrity: sha512-OazHfVxjYb4jxwQ/qx12UZneqTDHellNMIuXJ60SrVS63ThibJFYMysrnxMUhSoDXFd4RQhy9llCcdmNWmaGNQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@next/swc-linux-x64-musl@16.5.0-canary.15':
-    resolution: {integrity: sha512-kRHOgyoJpz3nuvpIDSbLrS5JJkMb3bneI6wgp7ltuo/25V8l5LqdkfyIbcAlAD/xQXSHU14jGoM+OuL8/INbeg==}
+  '@next/swc-linux-x64-musl@16.5.0-canary.17':
+    resolution: {integrity: sha512-8WSUxXhA9++L0czH+8QHIbq15If9c/EvCFr0xl1KpqDQwxoJYadj/oskS2Sv0pH3IiL8x2rETSZ+CfXg08Ws5w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@next/swc-win32-arm64-msvc@16.5.0-canary.15':
-    resolution: {integrity: sha512-CV5A/Bpvp9thnUIjj9fdJZnqwrEE1Z4rqgJByWp4osgb2hUxUPcoH+ZE2ry9Eu2jc30v3om1KTbQwhUzORxnXg==}
+  '@next/swc-win32-arm64-msvc@16.5.0-canary.17':
+    resolution: {integrity: sha512-pe4hH88kp11lCFQtqE/iGTiv4CRSJdFu3nYi7PSNThpRiYZF7iQPWdvuZT7c3eiH08tnz9eH9xAwJAo7xj9kEw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@next/swc-win32-x64-msvc@16.5.0-canary.15':
-    resolution: {integrity: sha512-2cGWDrnhBTGB6ZtRdWuEtZG93LKykS934GxmZy4Vlp1MzpzkLPQXmpsALXuTkAx3WuHsjs1tYPj3ODD6CUwxFQ==}
+  '@next/swc-win32-x64-msvc@16.5.0-canary.17':
+    resolution: {integrity: sha512-09484xtf61vp+I299Aw48ot0A8lpKDQyYA3rSYmizK7upR7cT2awzFk6iVXU8V9E4FDVFrmNuM3pzKJ0Md4YFg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -717,8 +717,8 @@ packages:
   '@oxc-project/types@0.150.0':
     resolution: {integrity: sha512-rDS5/31E9HfPl/CIzGrn0DOlvBbXFseQ5URJ9sYMfstbKLD/c6Gm9vmRzRGDdAXyOIL4zmO37lc9RIwYqVruZw==}
 
-  '@playwright/test@1.64.0-alpha-2026-10-05':
-    resolution: {integrity: sha512-KpYfwYEZHdV9Cd2ts/ZzB0hyBPWtiHqwq5wDVB3jwSfxCu/FP1zxVrnkXfp9Tgh9owG6YdUwREc0n2ikGaGhEA==}
+  '@playwright/test@1.65.0-alpha-2026-10-18':
+    resolution: {integrity: sha512-WyVRnzAPjc5aFFNzdNTt41PSYIHwMfivcVeVFms/zDEfSHUdgKZ8QiadTIbJcdAVYU9MOX3IQm+uTmeuHKDCbw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -1673,44 +1673,44 @@ packages:
   '@types/react@19.3.0':
     resolution: {integrity: sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==}
 
-  '@typescript/typescript-darwin-arm64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-O6EDZUrSRcvS0oIcP6F1VuuIAPWRNgfly/pqCz2mFgLvksF6UoEwwT82+JFpHmYtVWSzDXA+ryfnDjz8ecowOA==}
+  '@typescript/typescript-darwin-arm64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-QrqW210MuRE39pO06D0fzrK5cUI5o9XZ431suFVqo5jp+1ftteqjGloOWfEdbY9/AYrnWTnHyGRoflVlMPuBMw==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [darwin]
 
-  '@typescript/typescript-darwin-x64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-O1DsyFcs9d5tsLGbS2jnM9PoQTuR6g0n5d5KacOk62FvXnU9I0cfl9VRUtpmiF1qHxfR1uMJRQFVcpzzJbCClw==}
+  '@typescript/typescript-darwin-x64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-p3qtP2QmCNtzfmO97TRjpvdBzsuAktOz5zhR7/nDnDPNE5GvQoDr/EBExJtRdx8z0WCzg+Sp+9YeemUkhxsfZQ==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [darwin]
 
-  '@typescript/typescript-linux-arm64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-cR8Rx/83YFiLw+tMYp0iirtMYUobMCFlysMmkqstdAybexxuQxKVdnU71TiDHce5yxX2yPxcMVQ2Im4GSJ7B8g==}
+  '@typescript/typescript-linux-arm64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-ScIskq69vWwNJy6PWBhK+T3RmOdQ3ss23H3zjfVTZGzWAty5aCq8dB3rVREtHRK4xO5DPXokOU4iIZk6+LwpqA==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [linux]
 
-  '@typescript/typescript-linux-arm@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-jwlrwkHtrgaXAdrKivl/Ra5uSQ2BMjS4Uvqz9BO3rKJK6NSOoFu8xhrLcBh4CVOQnOt7cdyrrv8lb45C80yj3w==}
+  '@typescript/typescript-linux-arm@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-apquxPmY4EM+fZvHKdO018REPlPR0QT+B2OVzBQO3GOvzhemmHCJ8Y67xJ+/jp/BDVOwrZuIU+4//vPXMFw4bA==}
     engines: {node: '>=16.20.0'}
     cpu: [arm]
     os: [linux]
 
-  '@typescript/typescript-linux-x64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-7zqdh6fTPbbSCs6XE9XijZ+/n1GRzPI9tcoDw1ylcMm2olA99p6TtwXvAizWTNhPmIn+nF0m26ht2Qaydd2B7Q==}
+  '@typescript/typescript-linux-x64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-3sqenY2zlICwsFelAlGslP0a0AJa7m44aP1iTy+M+LhNPBhgdX33yx4iw/W+8rIjPDO9mvePjocYWEUOhsvgnQ==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [linux]
 
-  '@typescript/typescript-win32-arm64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-rsfmsiuLcOz6HeUpWlVROURK/hiElZ6/HnO27eWTDWqt3moPbq6EsaM3P3EChQA+nxaWdXYA2eJlllfoN/SALw==}
+  '@typescript/typescript-win32-arm64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-7buShO9a5Ha7TkBBY7la4YGBB2RsdVXggSyYqIymkqkYetmRMA/tkrQDPEqh4JyDg8b44xUXFxQVTCNrIX/uSw==}
     engines: {node: '>=16.20.0'}
     cpu: [arm64]
     os: [win32]
 
-  '@typescript/typescript-win32-x64@7.1.0-dev.20261016.1':
-    resolution: {integrity: sha512-ezvLsq1zhUhYrVNmp7MSXPnihN1pixsJbdmt3CENPi2IvDh4E7pU+ob3KcbjkzxOodDVuHrX4UsMeFnkXRfVDw==}
+  '@typescript/typescript-win32-x64@7.1.0-dev.20261018.1':
+    resolution: {integrity: sha512-A9IwVSC6KIc4Y0TColCqT29I5uSxlBx3spz8VWvTAS4O8ZnpHuNC+Yg6yAPHSfL6A1CWoluyBOckKBaGLyNolg==}
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [win32]
@@ -2083,8 +2083,8 @@ packages:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
 
-  lucide-react@1.58.0:
-    resolution: {integrity: sha512-hXaFNm6mk6QVtBnDGBn1YAs8j2tGUk0A4s/CpclIcczfxeXiW1rdOLVo6zCsoIih9XXsGvDODQerl749a2n7bA==}
+  lucide-react@1.59.0:
+    resolution: {integrity: sha512-5qgMyyCPU6OvnKpLS2t693+ZtiqA8oaSweWoUows0BLFKFf6V75m4+CptpmohZHpD5IuOVIBXHBBiv2vpLJmtw==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -2120,8 +2120,8 @@ packages:
   nanospinner@1.2.2:
     resolution: {integrity: sha512-Zt/AmG6qRU3e+WnzGGLuMCEAO/dAu45stNbHY223tUxldaDAeE+FxSPsd9Q+j+paejmm0ZbrNVs5Sraqy3dRxA==}
 
-  next@16.5.0-canary.15:
-    resolution: {integrity: sha512-7dLNpr6Q1Z5w2mQqCCFyAHLrSxKWd4+WIEhB0wwuW/+pwfParM5icXeNhdI4qpvZQl7sizqwqQBjup07x0UKTQ==}
+  next@16.5.0-canary.17:
+    resolution: {integrity: sha512-yqnfzMNhoTkYNzXcRIxQ5v+q1PlmUP0BQ9MU0ATjs8ZzmVH01HBFh69CMLMzDKEw9pQBJQpaFGfQvnlimSDvig==}
     engines: {node: '>=20.9.0'}
     hasBin: true
     peerDependencies:
@@ -2163,13 +2163,13 @@ packages:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
 
-  playwright-core@1.64.0-alpha-2026-10-05:
-    resolution: {integrity: sha512-pZQ/Z4+3xZ0jUfo8LfF0KJ+1fDN9AVp8EPgyBmEKoWpN2CnjcCzJJEAJgfRNEr4xABrzUjz5nABCMqpyr4Pf1Q==}
+  playwright-core@1.65.0-alpha-2026-10-18:
+    resolution: {integrity: sha512-5sEVyePjTkMLTM7F5k1qmb85LBAc+inCrO0NXc8R4i86UQSpw2Hr/TiPH5OqsoS8iuYpAAiO5VZ1VGm3WEFLBQ==}
     engines: {node: '>=20'}
     hasBin: true
 
-  playwright@1.64.0-alpha-2026-10-05:
-    resolution: {integrity: sha512-+UI6mn0gLx5JjdG4ySuW1UzdThk0CiEXdHL/PqpgtApmR6mrsEtoOqpi80rtcfLB8mDeUDHrZoZjALHlMxgVjw==}
+  playwright@1.65.0-alpha-2026-10-18:
+    resolution: {integrity: sha512-iDATJr7auXVS6mGQ3drEqoWEWLfVmNVP+yv57XF5j7d6Nr3nC0mo6ifjprrj2feWwiKxBCAUsSRu2QChkZSAkg==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -2372,8 +2372,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  typescript@7.1.0-dev.20261016.1:
-    resolution: {integrity: sha512-LwBVvNdVXO4Jw5omuucllx2SkVRo086LeIWqmoUAwRZfL309noSdmAzuQqO49kVvll5sN6Yxu5jX5FrKgqew+w==}
+  typescript@7.1.0-dev.20261018.1:
+    resolution: {integrity: sha512-i9Bjbbgj8hde40wnu2Ci5XX/RVu1jZFds4G3sOJwXfLGvSJlG1e/2yk/s+d1aoH90myX9XmnU5HrIZhxnIZmOA==}
     engines: {node: '>=16.20.0'}
     hasBin: true
 
@@ -2852,37 +2852,37 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@next/env@16.5.0-canary.15': {}
+  '@next/env@16.5.0-canary.17': {}
 
-  '@next/swc-darwin-arm64@16.5.0-canary.15':
+  '@next/swc-darwin-arm64@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-darwin-x64@16.5.0-canary.15':
+  '@next/swc-darwin-x64@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-linux-arm64-gnu@16.5.0-canary.15':
+  '@next/swc-linux-arm64-gnu@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-linux-arm64-musl@16.5.0-canary.15':
+  '@next/swc-linux-arm64-musl@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-linux-x64-gnu@16.5.0-canary.15':
+  '@next/swc-linux-x64-gnu@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-linux-x64-musl@16.5.0-canary.15':
+  '@next/swc-linux-x64-musl@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-win32-arm64-msvc@16.5.0-canary.15':
+  '@next/swc-win32-arm64-msvc@16.5.0-canary.17':
     optional: true
 
-  '@next/swc-win32-x64-msvc@16.5.0-canary.15':
+  '@next/swc-win32-x64-msvc@16.5.0-canary.17':
     optional: true
 
   '@oxc-project/types@0.150.0': {}
 
-  '@playwright/test@1.64.0-alpha-2026-10-05':
+  '@playwright/test@1.65.0-alpha-2026-10-18':
     dependencies:
-      playwright: 1.64.0-alpha-2026-10-05
+      playwright: 1.65.0-alpha-2026-10-18
 
   '@radix-ui/number@1.1.3': {}
 
@@ -3822,25 +3822,25 @@ snapshots:
     dependencies:
       csstype: 3.2.3
 
-  '@typescript/typescript-darwin-arm64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-darwin-arm64@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-darwin-x64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-darwin-x64@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-linux-arm64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-linux-arm64@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-linux-arm@7.1.0-dev.20261016.1':
+  '@typescript/typescript-linux-arm@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-linux-x64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-linux-x64@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-win32-arm64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-win32-arm64@7.1.0-dev.20261018.1':
     optional: true
 
-  '@typescript/typescript-win32-x64@7.1.0-dev.20261016.1':
+  '@typescript/typescript-win32-x64@7.1.0-dev.20261018.1':
     optional: true
 
   '@vercel/oidc@3.2.0': {}
@@ -4132,7 +4132,7 @@ snapshots:
 
   lru-cache@11.5.3: {}
 
-  lucide-react@1.58.0(@types/react@19.3.0)(react@19.3.1):
+  lucide-react@1.59.0(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       react: 19.3.1
     optionalDependencies:
@@ -4164,9 +4164,9 @@ snapshots:
     dependencies:
       picocolors: 1.1.1
 
-  next@16.5.0-canary.15(@playwright/test@1.64.0-alpha-2026-10-05)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+  next@16.5.0-canary.17(@playwright/test@1.65.0-alpha-2026-10-18)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
-      '@next/env': 16.5.0-canary.15
+      '@next/env': 16.5.0-canary.17
       '@swc/helpers': 0.5.23
       baseline-browser-mapping: 2.11.25
       caniuse-lite: 1.0.30001810
@@ -4175,15 +4175,15 @@ snapshots:
       react-dom: 19.3.1(react@19.3.1)
       styled-jsx: 5.1.6(react@19.3.1)
     optionalDependencies:
-      '@next/swc-darwin-arm64': 16.5.0-canary.15
-      '@next/swc-darwin-x64': 16.5.0-canary.15
-      '@next/swc-linux-arm64-gnu': 16.5.0-canary.15
-      '@next/swc-linux-arm64-musl': 16.5.0-canary.15
-      '@next/swc-linux-x64-gnu': 16.5.0-canary.15
-      '@next/swc-linux-x64-musl': 16.5.0-canary.15
-      '@next/swc-win32-arm64-msvc': 16.5.0-canary.15
-      '@next/swc-win32-x64-msvc': 16.5.0-canary.15
-      '@playwright/test': 1.64.0-alpha-2026-10-05
+      '@next/swc-darwin-arm64': 16.5.0-canary.17
+      '@next/swc-darwin-x64': 16.5.0-canary.17
+      '@next/swc-linux-arm64-gnu': 16.5.0-canary.17
+      '@next/swc-linux-arm64-musl': 16.5.0-canary.17
+      '@next/swc-linux-x64-gnu': 16.5.0-canary.17
+      '@next/swc-linux-x64-musl': 16.5.0-canary.17
+      '@next/swc-win32-arm64-msvc': 16.5.0-canary.17
+      '@next/swc-win32-x64-msvc': 16.5.0-canary.17
+      '@playwright/test': 1.65.0-alpha-2026-10-18
       sharp: 0.35.5(@types/node@26.6.5)
     transitivePeerDependencies:
       - '@babel/core'
@@ -4204,11 +4204,11 @@ snapshots:
 
   pkce-challenge@5.0.1: {}
 
-  playwright-core@1.64.0-alpha-2026-10-05: {}
+  playwright-core@1.65.0-alpha-2026-10-18: {}
 
-  playwright@1.64.0-alpha-2026-10-05:
+  playwright@1.65.0-alpha-2026-10-18:
     dependencies:
-      playwright-core: 1.64.0-alpha-2026-10-05
+      playwright-core: 1.65.0-alpha-2026-10-18
 
   postcss@8.5.23:
     dependencies:
@@ -4469,15 +4469,15 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  typescript@7.1.0-dev.20261016.1:
+  typescript@7.1.0-dev.20261018.1:
     optionalDependencies:
-      '@typescript/typescript-darwin-arm64': 7.1.0-dev.20261016.1
-      '@typescript/typescript-darwin-x64': 7.1.0-dev.20261016.1
-      '@typescript/typescript-linux-arm': 7.1.0-dev.20261016.1
-      '@typescript/typescript-linux-arm64': 7.1.0-dev.20261016.1
-      '@typescript/typescript-linux-x64': 7.1.0-dev.20261016.1
-      '@typescript/typescript-win32-arm64': 7.1.0-dev.20261016.1
-      '@typescript/typescript-win32-x64': 7.1.0-dev.20261016.1
+      '@typescript/typescript-darwin-arm64': 7.1.0-dev.20261018.1
+      '@typescript/typescript-darwin-x64': 7.1.0-dev.20261018.1
+      '@typescript/typescript-linux-arm': 7.1.0-dev.20261018.1
+      '@typescript/typescript-linux-arm64': 7.1.0-dev.20261018.1
+      '@typescript/typescript-linux-x64': 7.1.0-dev.20261018.1
+      '@typescript/typescript-win32-arm64': 7.1.0-dev.20261018.1
+      '@typescript/typescript-win32-x64': 7.1.0-dev.20261018.1
 
   undici-types@8.9.0: {}
 

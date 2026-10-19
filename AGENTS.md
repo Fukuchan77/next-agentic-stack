@@ -60,7 +60,7 @@ Direct pnpm equivalents (when mise is unavailable):
 - **Zod 4.6** — validation for env vars, request bodies and tool inputs
 - **Biome 2.5** — linting and formatting (with the `next`, `react` and `test` domains)
 - **Vitest 5** — unit testing ([vitest.config.ts](vitest.config.ts), jsdom)
-- **Playwright 1.64 alpha** — E2E testing ([playwright.config.ts](playwright.config.ts))
+- **Playwright 1.65 alpha** — E2E testing ([playwright.config.ts](playwright.config.ts))
 - **shadcn/ui (new-york) + Tailwind CSS 4** — Tailwind runs through `@tailwindcss/postcss` ([postcss.config.mjs](postcss.config.mjs)); theme tokens in `src/app/globals.css`; components in `src/components/ui`
 
 ### Directory structure
