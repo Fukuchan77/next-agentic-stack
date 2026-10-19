@@ -34,7 +34,7 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 
 | 領域 | 採用技術 | バージョン |
 | --- | --- | --- |
-| ランタイム | [Node.js](https://nodejs.org) | 26.10 |
+| ランタイム | [Node.js](https://nodejs.org) | 26.12 |
 | 言語 | [TypeScript](https://www.typescriptlang.org)(Go 製ネイティブコンパイラ) | 7.1(nightly) |
 | パッケージ管理 | [pnpm](https://pnpm.io) | 12.6 |
 | フレームワーク | [Next.js](https://nextjs.org)(App Router + Turbopack) | 16.5(canary) |
@@ -43,14 +43,14 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 | バリデーション | [Zod](https://zod.dev) | 4.6 |
 | Lint / Format | [Biome](https://biomejs.dev) | 2.5 |
 | 単体テスト | [Vitest](https://vitest.dev) + [Testing Library](https://testing-library.com) | 5.0 |
-| E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) | 1.64(alpha) |
+| E2E テスト | [Playwright](https://playwright.dev)(Chromium / Firefox) | 1.65(alpha) |
 | UI / スタイル | [shadcn/ui](https://ui.shadcn.com)(new-york)+ [Tailwind CSS](https://tailwindcss.com)(`@tailwindcss/postcss`) | — / 4.3 |
 | ツール/タスク管理 | [mise](https://mise.jdx.dev)(Node / pnpm バージョン + タスクランナー) | — |
 | バンドルサイズ監視 | [size-limit](https://github.com/ai/size-limit) | 14 |
 | シークレットスキャン | [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30 |
 
 > [!WARNING]
-> TypeScript 7.1 nightly / Next.js 16.5 canary / Playwright 1.64 alpha を、
+> TypeScript 7.1 nightly / Next.js 16.5 canary / Playwright 1.65 alpha を、
 > `package.json` で**特定バージョンに exact pin**して使用しています。stable の検知は自動切替ではなく、
 > 公開から 24 時間経過後に隔離評価を始める合図です([評価手順](#-プレリリース版の更新))。
 
@@ -59,7 +59,7 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 前提: [mise](https://mise.jdx.dev) をインストール済みであること(Node と pnpm は mise が `mise.toml` の固定バージョンで用意します)。
 
 ```bash
-mise install              # Node 26.10.0 / pnpm 12.6.0 を用意
+mise install              # Node 26.12.0 / pnpm 12.14.0 を用意
 pnpm install              # 依存をインストール
 cp .env.example .env.local  # API キー・モデルを設定
 mise run dev              # 開発サーバーを http://localhost:3000 で起動
@@ -185,7 +185,7 @@ registry の HTTP error、取得例外、不正 JSON が一件でもあれば、
 
 ## 🔁 プレリリース版の更新
 
-TypeScript 7.1 / Next.js 16.5 / Playwright 1.64 に対応する stable が表示されても、直接切り替えません。
+TypeScript 7.1 / Next.js 16.5 / Playwright 1.65 に対応する stable が表示されても、直接切り替えません。
 
 1. `mise run outdated` で候補が公開から 24 時間以上経過していることを確認する。
 2. 一つの依存だけを対象にした隔離変更を作り、プレリリース構成の baseline と stable 候補を比較する。

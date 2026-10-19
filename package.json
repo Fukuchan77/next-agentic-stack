@@ -5,29 +5,29 @@
 	"private": true,
 	"version": "1.0.0",
 	"type": "module",
-	"packageManager": "pnpm@12.6.0",
+	"packageManager": "pnpm@12.14.0",
 	"engines": {
-		"node": ">=26.10.0"
+		"node": ">=26.12.0"
 	},
 	"dependencies": {
-		"@ai-sdk/anthropic": "^4.0.79",
-		"@ai-sdk/openai": "^4.0.93",
-		"@ai-sdk/openai-compatible": "^3.0.68",
-		"@ai-sdk/react": "^4.0.143",
-		"ai": "^7.0.140",
+		"@ai-sdk/anthropic": "^4.0.82",
+		"@ai-sdk/openai": "^4.0.96",
+		"@ai-sdk/openai-compatible": "^3.0.71",
+		"@ai-sdk/react": "^4.0.147",
+		"ai": "^7.0.143",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"lucide-react": "^1.57.0",
-		"next": "16.5.0-canary.15",
+		"lucide-react": "^1.59.0",
+		"next": "16.5.0-canary.17",
 		"radix-ui": "^1.8.1",
 		"react": "^19.3.1",
 		"react-dom": "^19.3.1",
 		"tailwind-merge": "^3.7.0",
-		"zod": "^4.6.5"
+		"zod": "^4.6.7"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
-		"@playwright/test": "1.64.0-alpha-2026-10-05",
+		"@playwright/test": "1.65.0-alpha-2026-10-18",
 		"@size-limit/file": "^14.2.0",
 		"@tailwindcss/postcss": "^4.3.3",
 		"@testing-library/dom": "^10.4.1",
@@ -38,10 +38,10 @@
 		"@types/react": "^19.3.0",
 		"@types/react-dom": "^19.3.0",
 		"@vitest/coverage-v8": "^5.0.5",
-		"jsdom": "^30.1.2",
+		"jsdom": "^30.1.3",
 		"size-limit": "^14.2.0",
 		"tailwindcss": "^4.3.3",
-		"typescript": "7.1.0-dev.20261016.1",
+		"typescript": "7.1.0-dev.20261018.1",
 		"vitest": "^5.0.5"
 	},
 	"scripts": {

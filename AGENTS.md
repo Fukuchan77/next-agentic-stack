@@ -52,7 +52,7 @@ Direct pnpm equivalents (when mise is unavailable):
 
 ### Tech stack
 
-- **Node.js 26.10** + **pnpm 12.6** (pinned in `mise.toml` and `package.json`)
+- **Node.js 26.12** + **pnpm 12.14** (pinned in `mise.toml` and `package.json`)
 - **Next.js 16.5 canary** (App Router, Turbopack is the default bundler) + **React 19.3**
 - **TypeScript 7.1 nightly** — the Go-native compiler; `tsc` is fast, and there is no JS compiler API
 - **Vercel AI SDK 7** — `ToolLoopAgent`, `createAgentUIStreamResponse`, `useChat` (`@ai-sdk/react`)
@@ -60,7 +60,7 @@ Direct pnpm equivalents (when mise is unavailable):
 - **Zod 4.6** — validation for env vars, request bodies and tool inputs
 - **Biome 2.5** — linting and formatting (with the `next`, `react` and `test` domains)
 - **Vitest 5** — unit testing ([vitest.config.ts](vitest.config.ts), jsdom)
-- **Playwright 1.64 alpha** — E2E testing ([playwright.config.ts](playwright.config.ts))
+- **Playwright 1.65 alpha** — E2E testing ([playwright.config.ts](playwright.config.ts))
 - **shadcn/ui (new-york) + Tailwind CSS 4** — Tailwind runs through `@tailwindcss/postcss` ([postcss.config.mjs](postcss.config.mjs)); theme tokens in `src/app/globals.css`; components in `src/components/ui`
 
 ### Directory structure
@@ -103,3 +103,11 @@ tests/
 - **Prerelease pins** — `typescript`, `next`, `@playwright/test` are pinned to exact prerelease builds that are at least 24 h old (to satisfy `minimumReleaseAge`). Do not switch them to ranges.
 - **Dependabot** — weekly npm + GitHub Actions PRs with `cooldown: 1 day` (mirrors `minimumReleaseAge`). `ai`/`@ai-sdk/*` are grouped because they share `@ai-sdk/provider-utils`; `next`/`typescript` prerelease pins are grouped into one PR; shadcn/ui runtime deps (`radix-ui`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`) are the `ui` group. `@playwright/test` is ignored — Dependabot ranks timestamp-style alphas (`1.64.0-alpha-1789764292000`) above date-style ones and opens downgrade PRs, so check it with `mise run outdated` (compares publish time). Remove the ignore once it moves to a stable caret range.
 - **Build scripts** — pnpm 12 uses `allowBuilds` (not `onlyBuiltDependencies`/`ignoredBuiltDependencies`) in `pnpm-workspace.yaml`.
+
+<!-- BEGIN:nextjs-agent-upgrade -->
+
+## Next.js upgrade reminders
+
+Upgrade reminders emitted by this project's installed Next.js CLI during `next dev` or `next build` are part of the `experimental.agentUpgrade` workflow. Follow these reminders' instructions while respecting user instructions declining upgrades.
+
+<!-- END:nextjs-agent-upgrade -->
