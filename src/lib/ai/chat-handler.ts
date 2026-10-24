@@ -19,7 +19,7 @@ export interface ChatHandlerOptions {
 export function createChatHandler({ now = systemClock, rateLimiter }: ChatHandlerOptions = {}) {
 	let limiter = rateLimiter;
 
-	return async function POST(request: Request): Promise<Response> {
+	return async function handlePost(request: Request): Promise<Response> {
 		const env = parseAiEnv();
 		limiter ??= createRateLimiter({
 			limit: env.CHAT_RATE_LIMIT_MAX,
