@@ -17,7 +17,7 @@
 		"ai": "^7.0.150",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"lucide-react": "^1.61.0",
+		"lucide-react": "^1.63.0",
 		"next": "16.5.0-canary.17",
 		"radix-ui": "^1.8.1",
 		"react": "^19.3.1",
