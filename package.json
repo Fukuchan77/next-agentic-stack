@@ -10,11 +10,11 @@
 		"node": ">=26.12.0"
 	},
 	"dependencies": {
-		"@ai-sdk/anthropic": "^4.0.87",
-		"@ai-sdk/openai": "^4.0.101",
-		"@ai-sdk/openai-compatible": "^3.0.77",
-		"@ai-sdk/react": "^4.0.154",
-		"ai": "^7.0.150",
+		"@ai-sdk/anthropic": "^4.0.91",
+		"@ai-sdk/openai": "^4.0.104",
+		"@ai-sdk/openai-compatible": "^3.0.80",
+		"@ai-sdk/react": "^4.0.160",
+		"ai": "^7.0.156",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"lucide-react": "^1.61.0",
