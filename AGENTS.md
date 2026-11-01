@@ -52,7 +52,7 @@ Direct pnpm equivalents (when mise is unavailable):
 
 ### Tech stack
 
-- **Node.js 26.12** + **pnpm 12.14** (pinned in `mise.toml` and `package.json`)
+- **Node.js 26.13** + **pnpm 12.16** (pinned in `mise.toml` and `package.json`)
 - **Next.js 16.5 canary** (App Router, Turbopack is the default bundler) + **React 19.3**
 - **TypeScript 7.1 nightly** — the Go-native compiler; `tsc` is fast, and there is no JS compiler API
 - **Vercel AI SDK 7** — `ToolLoopAgent`, `createAgentUIStreamResponse`, `useChat` (`@ai-sdk/react`)
