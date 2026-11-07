@@ -1,0 +1,39 @@
+name: security-daily
+
+# Scheduled dependency audit. The `Security Audit` step in tests.yml only runs
+# on a push, but an advisory can go from green to red against an unchanged
+# lockfile, so the same audit also runs once a day. A failure here means a new
+# advisory affects the committed dependency graph; fix it by upgrading, or
+# record a reviewed `auditConfig` ignore with its retirement condition.
+on:
+  schedule:
+    # 17:30 UTC = 02:30 JST
+    - cron: "30 17 * * *"
+  workflow_dispatch: {}
+
+# A manual dispatch racing the schedule should not run twice.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# GITHUB_TOKEN は読み取り専用にする(書き込み権限を要する job はない)
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      # Node / pnpm は mise.toml の固定バージョンで用意する
+      - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5
+
+      # --frozen-lockfile so the audit reflects the committed dependency graph
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Security Audit
+        run: pnpm audit --audit-level=moderate

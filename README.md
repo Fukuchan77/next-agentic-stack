@@ -199,7 +199,7 @@ push のたびに GitHub Actions で以下を実行します。
 
 - **lint**:`biome check` + `pnpm typecheck`(`next typegen` + `tsc`)/ gitleaks(secret-scan)
 - **tests**:`vitest run --coverage`(unit)/ `size-limit`(bundle)/ Playwright(e2e)
-- **security**:`pnpm audit`
+- **security**:`pnpm audit`(push 時の `tests.yml` に加え、既知 CVE は lockfile が変わらなくても新規公開されるため `security-daily.yml` が毎日実行)
 
 ## 🤖 AI コーディングエージェント向け
 
