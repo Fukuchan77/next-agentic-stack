@@ -7,7 +7,7 @@
 	"type": "module",
 	"packageManager": "pnpm@12.16.1",
 	"engines": {
-		"node": ">=26.13.0"
+		"node": ">=26.13.1"
 	},
 	"dependencies": {
 		"@ai-sdk/anthropic": "^4.0.102",
