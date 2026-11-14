@@ -1,5 +1,5 @@
 [tools]
-node = "26.13.0"
+node = "26.13.1"
 # "latest" だと公開直後の不正バージョンを自動取得するリスクがあるため固定する
 # (package.json の packageManager と一致させること)
 pnpm = "12.16.1"

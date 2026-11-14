@@ -59,7 +59,7 @@ Next.js canary / Playwright alpha)を先に動かします。Vitest 5 は 2026-1
 前提: [mise](https://mise.jdx.dev) をインストール済みであること(Node と pnpm は mise が `mise.toml` の固定バージョンで用意します)。
 
 ```bash
-mise install              # Node 26.13.0 / pnpm 12.16.1 を用意
+mise install              # Node 26.13.1 / pnpm 12.16.1 を用意
 pnpm install              # 依存をインストール
 cp .env.example .env.local  # API キー・モデルを設定
 mise run dev              # 開発サーバーを http://localhost:3000 で起動
