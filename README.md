@@ -162,7 +162,7 @@ tests/
 - **エージェントループの上限**:`ToolLoopAgent` は `stopWhen: isStepCount(5)` で暴走を防ぐ。
 - **LLM 呼び出しをテストでモック**:単体テストは `ai/test` の `MockLanguageModelV4`、E2E は `page.route` で UI Message Stream をモックし、API キーなしで CI が回る。
 - **型のみの import は `import type`**:Biome の `useImportType` で強制。
-- **バンドルサイズのガードレール**:`size-limit` を CI で検査(クライアント JS 240 kB / CSS 6 kB、brotli)。
+- **バンドルサイズのガードレール**:`size-limit` を CI で検査(クライアント JS 245 kB / CSS 6 kB、brotli。上限の変更履歴は [docs/bundle-budget.md](docs/bundle-budget.md))。
 
 ## 🔒 サプライチェーン対策
 
